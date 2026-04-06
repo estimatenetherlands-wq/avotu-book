@@ -204,3 +204,85 @@ nav {
   background-color: var(--accent-flame);
   box-shadow: 0 0 10px var(--accent-glow);
 }
+
+/* 📱 МОБИЛЬНАЯ АДАПТАЦИЯ (Абсолютный комфорт для чтения) */
+@media (max-width: 768px) {
+  body {
+    font-size: 1.15rem;
+    line-height: 1.65;
+  }
+
+  .header {
+    padding: 2.5rem 1rem 1.5rem 1rem;
+    background: linear-gradient(to bottom, rgba(8, 9, 10, 0.98) 0%, rgba(8, 9, 10, 0.9) 80%, transparent 100%);
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+    letter-spacing: 0.1em;
+  }
+
+  .content-wrapper {
+    padding: 0.25rem 0.5rem;
+    max-width: 100%;
+  }
+
+  .book-content {
+    padding: 2.5rem 1.25rem;
+    margin-top: 0;
+    border-radius: 8px;
+    background: rgba(10, 12, 16, 0.94);
+    box-shadow: none;
+    border: none;
+  }
+
+  .book-content p {
+    text-indent: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  
+  .book-content p.dropcap {
+    text-indent: 0;
+  }
+
+  .dropcap::first-letter {
+    font-size: 3rem;
+    margin-top: 0.1rem;
+    margin-right: 0.4rem;
+  }
+
+  .chapter-title {
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .chapter-title::after {
+    width: 40px;
+    bottom: -10px;
+  }
+  
+  nav {
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  
+  .nav-link {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-buttons {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    margin-top: 3rem !important;
+  }
+
+  .nav-btn {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 18px !important;
+    font-size: 1.1rem !important;
+    background: rgba(255,255,255,0.03);
+  }
+}

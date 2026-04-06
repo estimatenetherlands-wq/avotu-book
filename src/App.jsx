@@ -85,9 +85,10 @@ function App() {
               }
               return <p key={i} className={i === 0 ? "dropcap" : ""}>{p}</p>;
             })}
-            <div style={{marginTop: '4rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem'}}>
+            <div className="nav-buttons" style={{marginTop: '4rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem'}}>
               <button 
                 onClick={() => setView('HOME')}
+                className="nav-btn"
                 style={{padding: '10px 20px', border: '1px solid var(--border-color)', color: 'var(--text-main)', borderRadius: '4px'}}
               >
                 К оглавлению
@@ -95,6 +96,7 @@ function App() {
               {currentContent.index !== undefined && currentContent.index < bookIndex.chapters.length - 1 && (
                 <button 
                   onClick={() => loadChapter(bookIndex.chapters[currentContent.index + 1], currentContent.index + 1)}
+                  className="nav-btn"
                   style={{padding: '10px 20px', border: '1px solid var(--accent-flame)', color: 'var(--accent-flame)', borderRadius: '4px'}}
                 >
                   Следующая глава &rarr;
