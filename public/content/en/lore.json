@@ -1,0 +1,25 @@
+{
+  "title": "Lore of the Fading World",
+  "sections": [
+    {
+      "name": "Fire Elves (Agshami)",
+      "content": "The ruling race of Agdash. They possess the ability of internal combustion, which manifests as 'Living Flame' on their heads. The color and intensity of the flame reflect their emotional state and magical power. In the post-apocalyptic world, many have lost their light, becoming 'Extinguished' — outcasts without magic."
+    },
+    {
+      "name": "Portals and the Void",
+      "content": "Not a weapon of enemies, but a terminal disease of reality. Portals are ruptures in the fabric of the world through which the Void's anti-matter seeps, taking the form of monstrous 'Harvesters'. They cannot be closed; they can only be temporarily suppressed at the cost of immense life energy."
+    },
+    {
+      "name": "The Strangers (Isekai)",
+      "content": "A group of five friends from Yekaterinburg (Earth): Alexander, Anar, Yuri, Evgeniy, and Ravan. They are bound by an unbreakable bond of brotherhood. In this world, they are devoid of natural mana but possess unique 'Earthly' logic and resilience. Their friendship is their primary shield against the madness of the surrounding world."
+    },
+    {
+      "name": "Agdash",
+      "content": "The Last Bastion. A city built from the fragments of three great cultures: Gothic, Arabic, and Japanese. It is currently under total mobilization. The people are weary, protests are frequent, and the resources are nearly exhausted."
+    },
+    {
+      "name": "Gidroli",
+      "content": "A race of humanoid beings with transparent bodies of various colors. They primarily inhabit the underwater kingdoms but often live on land near water sources. Their bodies are 90% water, allowing them to merge with the environment."
+    }
+  ]
+}
