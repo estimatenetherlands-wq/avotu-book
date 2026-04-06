@@ -8,6 +8,7 @@ function App() {
   const [currentContent, setCurrentContent] = useState(null);
   const [currentIdx, setCurrentIdx] = useState(null); // Track chapter number
   const [currentLoreFile, setCurrentLoreFile] = useState(null); // Track lore filename
+  const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const t = {
@@ -22,7 +23,11 @@ function App() {
       telegram: "Телеграм-канал",
       push: "Пуш-уведомления",
       subscribe: "Уведомлять о новых главах",
-      support: "Поддержать автора проекта:",
+      support: "Поддержать автора",
+      supportDesc: "Каждая монета помогает ковать будущее хроник Авоту.",
+      receiver: "Получатель:",
+      bank: "Банк:",
+      copied: "Скопировано!",
       loading: "Загрузка..."
     },
     en: {
@@ -36,7 +41,11 @@ function App() {
       telegram: "Join Telegram",
       push: "Push Notifications",
       subscribe: "Notify me about new chapters",
-      support: "Support the author:",
+      support: "Support the author",
+      supportDesc: "Every coin helps forge the future of Avotu Chronicles.",
+      receiver: "Receiver:",
+      bank: "Bank:",
+      copied: "Copied!",
       loading: "Loading..."
     }
   }[lang];
@@ -90,6 +99,13 @@ function App() {
 
   const handleSubscribe = () => {
     OneSignal.Slidedown.promptPush().catch(err => console.error(err));
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
   const loadChapter = (chapter, index) => {
@@ -248,11 +264,35 @@ function App() {
           </a>
         </div>
         
-        <div style={{ background: '#1a1a1a', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'inline-block' }}>
-          <p style={{ margin: '0 0 0.5rem 0', color: 'var(--accent-flame)', fontWeight: 'bold' }}>{t.support}</p>
-          <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-            <span style={{color: '#888'}}>IBAN:</span>
-            <code style={{ userSelect: 'all', padding: '0.5rem', background: '#000', fontFamily: 'monospace', fontSize: '1.2rem', color: '#fff', borderRadius: '4px' }}>NL90 YOUR 0316 3942 54</code>
+        <div className="support-card">
+          <div className="support-card-header">
+            <span className="support-icon">🏛️</span>
+            <div>
+              <p className="support-title">{t.support}</p>
+              <p className="support-desc">{t.supportDesc}</p>
+            </div>
+          </div>
+          <div className="support-info">
+            <div className="support-details">
+              <span className="support-label">{t.receiver}</span>
+              <span className="support-value">Anar Agadzhanov</span>
+            </div>
+            <div className="support-details">
+              <span className="support-label">{t.bank}</span>
+              <span className="support-value">ING Bank</span>
+            </div>
+            <div className="support-details">
+              <span className="support-label">IBAN:</span>
+              <div className="support-iban-wrapper">
+                <code className="support-iban">NL74 INGB 0117 7006 22</code>
+                <button 
+                  onClick={() => copyToClipboard("NL74 INGB 0117 7006 22")}
+                  className={`copy-btn ${copied ? 'copied' : ''}`}
+                >
+                  {copied ? `✓ ${t.copied}` : '📋'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
