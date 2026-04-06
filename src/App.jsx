@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import OneSignal from 'react-onesignal';
 
 function App() {
   const [lang, setLang] = useState('ru');
@@ -17,6 +18,8 @@ function App() {
       author: "Автор",
       creator: "Создатель",
       telegram: "Телеграм-канал",
+      push: "Пуш-уведомления",
+      subscribe: "Уведомлять о новых главах",
       support: "Поддержать автора проекта:",
       loading: "Загрузка..."
     },
@@ -29,10 +32,22 @@ function App() {
       author: "Author",
       creator: "Creator",
       telegram: "Join Telegram",
+      push: "Push Notifications",
+      subscribe: "Notify me about new chapters",
       support: "Support the author:",
       loading: "Loading..."
     }
   }[lang];
+
+  useEffect(() => {
+    // Only init once on mount
+    OneSignal.init({ 
+      appId: "de082089-29d1-4cb6-8240-78230e587908",
+      allowLocalhostAsSecureOrigin: true // Useful for your local testing
+    }).then(() => {
+      console.log("OneSignal Initialized");
+    });
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -54,6 +69,10 @@ function App() {
         setLoading(false); // Stop loading even on error to show state
       });
   }, [lang]);
+
+  const handleSubscribe = () => {
+    OneSignal.Slidedown.promptPush().catch(err => console.error(err));
+  };
 
   const loadChapter = (chapter, index) => {
     setLoading(true);
@@ -193,6 +212,11 @@ function App() {
       </main>
 
       <footer style={{ marginTop: 'auto', padding: '2rem 1rem', textAlign: 'center', borderTop: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '1rem' }}>
+          <button onClick={handleSubscribe} className="social-btn push">
+            <span>🔔 {t.subscribe}</span>
+          </button>
+        </div>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           <a href="https://t.me/avotubook" target="_blank" rel="noopener noreferrer" className="social-btn telegram">
             <span>{t.telegram}</span>
