@@ -6,63 +6,63 @@
     {
       "id": "chapter-1",
       "title": "Глава 1: Пепел и Пламя",
-      "file": "/content/chapter-1.json"
+      "file": "chapter-1.json"
     },
     {
       "id": "chapter-2",
       "title": "Глава 2: Голос из Бездны",
-      "file": "/content/chapter-2.json"
+      "file": "chapter-2.json"
     },
     {
       "id": "chapter-3",
       "title": "Глава 3: След Брата",
-      "file": "/content/chapter-3.json"
+      "file": "chapter-3.json"
     },
     {
       "id": "chapter-4",
       "title": "Глава 4: Под крылом бури",
-      "file": "/content/chapter-4.json"
+      "file": "chapter-4.json"
     },
     {
       "id": "chapter-5",
       "title": "Глава 5: Допрос и Проверка",
-      "file": "/content/chapter-5.json"
+      "file": "chapter-5.json"
     },
     {
       "id": "chapter-6",
       "title": "Глава 6: У костра и залечивание ран",
-      "file": "/content/chapter-6.json"
+      "file": "chapter-6.json"
     },
     {
       "id": "chapter-7",
       "title": "Глава 7: Врата Агдаша",
-      "file": "/content/chapter-7.json"
+      "file": "chapter-7.json"
     },
     {
       "id": "chapter-8",
       "title": "Глава 8: Архитектура отчаяния",
-      "file": "/content/chapter-8.json"
+      "file": "chapter-8.json"
     },
     {
       "id": "chapter-9",
       "title": "Глава 9: Искры во тьме",
-      "file": "/content/chapter-9.json"
+      "file": "chapter-9.json"
     },
     {
       "id": "chapter-10",
       "title": "Глава 10: Законы выживания",
-      "file": "/content/chapter-10.json"
+      "file": "chapter-10.json"
     },
     {
       "id": "chapter-11",
       "title": "Глава 11: Броня и Воля",
-      "file": "/content/chapter-11.json"
+      "file": "chapter-11.json"
     },
     {
       "id": "chapter-12",
       "title": "Глава 12: Идущие на смерть",
-      "file": "/content/chapter-12.json"
+      "file": "chapter-12.json"
     }
   ],
-  "lore": "/content/lore.json"
+  "lore": "lore.json"
 }

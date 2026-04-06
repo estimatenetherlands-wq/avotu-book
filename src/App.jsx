@@ -34,36 +34,63 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/content/${lang}/book_index.json`)
-      .then(res => res.json())
+    // Ensure the path is correct: /content/ru/book_index.json or /content/en/book_index.json
+    const indexPath = `/content/${lang}/book_index.json`;
+    console.log("Fetching index:", indexPath);
+    
+    fetch(indexPath)
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load ${indexPath}: ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         setBookIndex(data);
         setLoading(false);
       })
-      .catch(err => console.error("Could not load book index", err));
+      .catch(err => {
+        console.error("Could not load book index", err);
+        setLoading(false); // Stop loading even on error to show state
+      });
   }, [lang]);
 
   const loadChapter = (chapter, index) => {
     setLoading(true);
-    fetch(`/content/${lang}${chapter.file}`)
-      .then(res => res.json())
+    // chapter.file is now just "chapter-1.json"
+    const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
+    fetch(chapterPath)
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
+        return res.json();
+      })
       .then(data => {
         setCurrentContent({ ...data, index, chapterData: chapter });
         setView('CHAPTER');
         setLoading(false);
         window.scrollTo(0,0);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
       });
   };
 
   const loadLore = (file) => {
     setLoading(true);
-    fetch(`/content/${lang}${file}`)
-      .then(res => res.json())
+    const lorePath = `/content/${lang}/${file.replace('/content/', '')}`;
+    fetch(lorePath)
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load ${lorePath}`);
+        return res.json();
+      })
       .then(data => {
         setCurrentContent(data);
         setView('LORE');
         setLoading(false);
         window.scrollTo(0,0);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
       });
   };
 
