@@ -42,7 +42,7 @@ function App() {
   useEffect(() => {
     // Only init once on mount
     OneSignal.init({ 
-      appId: "de082089-29d1-4cbc-8240-78230e587908",
+      appId: "de082089-29d1-4cb6-8240-78230e587908",
       allowLocalhostAsSecureOrigin: true // Useful for your local testing
     }).then(() => {
       console.log("OneSignal Initialized");
