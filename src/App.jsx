@@ -41,11 +41,16 @@ function App() {
 
   useEffect(() => {
     // Only init once on mount
+    const onsignalId = "de082089-29d1-4cbc-8240-78230e587908";
+    console.log("OneSignal: Initializing with ID", onsignalId);
+    
     OneSignal.init({ 
-      appId: "de082089-29d1-4cb6-8240-78230e587908",
-      allowLocalhostAsSecureOrigin: true // Useful for your local testing
+      appId: onsignalId,
+      allowLocalhostAsSecureOrigin: true
     }).then(() => {
-      console.log("OneSignal Initialized");
+      console.log("OneSignal: Initialized Successfully");
+    }).catch(err => {
+      console.error("OneSignal: Initialization Failed", err);
     });
   }, []);
 
