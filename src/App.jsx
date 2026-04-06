@@ -6,6 +6,8 @@ function App() {
   const [view, setView] = useState('HOME');
   const [bookIndex, setBookIndex] = useState(null);
   const [currentContent, setCurrentContent] = useState(null);
+  const [currentIdx, setCurrentIdx] = useState(null); // Track chapter number
+  const [currentLoreFile, setCurrentLoreFile] = useState(null); // Track lore filename
   const [loading, setLoading] = useState(true);
 
   const t = {
@@ -75,12 +77,25 @@ function App() {
       });
   }, [lang]);
 
+  // Sync content when language or bookIndex changes
+  useEffect(() => {
+    if (!bookIndex) return;
+    
+    if (view === 'CHAPTER' && currentIdx !== null) {
+      loadChapter(bookIndex.chapters[currentIdx], currentIdx);
+    } else if (view === 'LORE' && currentLoreFile !== null) {
+      loadLore(currentLoreFile);
+    }
+  }, [lang, bookIndex]);
+
   const handleSubscribe = () => {
     OneSignal.Slidedown.promptPush().catch(err => console.error(err));
   };
 
   const loadChapter = (chapter, index) => {
+    if (!chapter) return;
     setLoading(true);
+    setCurrentIdx(index);
     // chapter.file is now just "chapter-1.json"
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     fetch(chapterPath)
@@ -101,7 +116,9 @@ function App() {
   };
 
   const loadLore = (file) => {
+    if (!file) return;
     setLoading(true);
+    setCurrentLoreFile(file);
     const lorePath = `/content/${lang}/${file.replace('/content/', '')}`;
     fetch(lorePath)
       .then(res => {
