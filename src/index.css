@@ -286,3 +286,46 @@ nav {
     background: rgba(255,255,255,0.03);
   }
 }
+
+/* 📱 СОЦИАЛЬНЫЕ КНОПКИ */
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-main);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: var(--font-hero);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.social-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  border-color: var(--accent-flame);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.social-btn.telegram {
+  background: rgba(36, 161, 222, 0.1);
+}
+
+.social-btn.telegram:hover {
+  border-color: #24A1DE;
+  box-shadow: 0 0 15px rgba(36, 161, 222, 0.3);
+}
+
+.social-btn.instagram {
+  background: rgba(225, 48, 108, 0.1);
+}
+
+.social-btn.instagram:hover {
+  border-color: #E1306C;
+  box-shadow: 0 0 15px rgba(225, 48, 108, 0.3);
+}

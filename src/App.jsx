@@ -16,6 +16,7 @@ function App() {
       next: "Следующая глава",
       author: "Автор",
       creator: "Создатель",
+      telegram: "Телеграм-канал",
       support: "Поддержать автора проекта:",
       loading: "Загрузка..."
     },
@@ -27,6 +28,7 @@ function App() {
       next: "Next Chapter",
       author: "Author",
       creator: "Creator",
+      telegram: "Join Telegram",
       support: "Support the author:",
       loading: "Loading..."
     }
@@ -191,10 +193,14 @@ function App() {
       </main>
 
       <footer style={{ marginTop: 'auto', padding: '2rem 1rem', textAlign: 'center', borderTop: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'center' }}>
-        <a href="https://www.instagram.com/mays_csq?igsh=Zmh6aGo3cG42OHk4" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)', textDecoration: 'none', background: 'rgba(255,255,255,0.05)', padding: '0.5rem 1rem', borderRadius: '8px' }}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style={{ width: '24px', height: '24px', filter: 'grayscale(100%) brightness(200%)', opacity: 0.8 }} />
-          <span>{t.creator}: @mays_csq</span>
-        </a>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <a href="https://t.me/avotubook" target="_blank" rel="noopener noreferrer" className="social-btn telegram">
+            <span>{t.telegram}</span>
+          </a>
+          <a href="https://www.instagram.com/mays_csq?igsh=Zmh6aGo3cG42OHk4" target="_blank" rel="noopener noreferrer" className="social-btn instagram">
+            <span>Instagram</span>
+          </a>
+        </div>
         
         <div style={{ background: '#1a1a1a', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'inline-block' }}>
           <p style={{ margin: '0 0 0.5rem 0', color: 'var(--accent-flame)', fontWeight: 'bold' }}>{t.support}</p>
