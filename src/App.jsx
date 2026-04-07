@@ -126,24 +126,24 @@ function App() {
     // chapter.file is now just "chapter-1.json"
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     
-    // Fetch statistics (Views increment, Likes just get)
-    const statsId = `avotu_c${index + 1}`;
+    // Fetch statistics via our internal API proxy
+    const chapterId = `c${index + 1}`;
     
     // Views increment
-    fetch(`https://api.countapi.it/hit/avotu.book/v_${statsId}`)
+    fetch(`/api/stats?key=views_${chapterId}&action=increment`)
       .then(res => res.json())
-      .then(data => setViews(data.value || 0))
+      .then(data => setViews(data.count || 0))
       .catch(() => {});
 
     // Likes count (get only)
-    fetch(`https://api.countapi.it/get/avotu.book/l_${statsId}`)
+    fetch(`/api/stats?key=likes_${chapterId}`)
       .then(res => res.json())
-      .then(data => setLikes(data.value || 0))
+      .then(data => setLikes(data.count || 0))
       .catch(() => {});
 
     // Check if user already liked
     const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
-    setHasLiked(likedChapters.includes(statsId));
+    setHasLiked(likedChapters.includes(chapterId));
 
     fetch(chapterPath)
       .then(res => {
@@ -164,18 +164,25 @@ function App() {
 
   const handleLike = () => {
     if (hasLiked || currentIdx === null) return;
-    const statsId = `avotu_c${currentIdx + 1}`;
+    const chapterId = `c${currentIdx + 1}`;
     
-    fetch(`https://api.countapi.it/hit/avotu.book/l_${statsId}`)
+    // Optimistic UI: update immediately for better UX
+    setLikes(prev => prev + 1);
+    setHasLiked(true);
+    const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
+    likedChapters.push(chapterId);
+    localStorage.setItem('avotu-liked', JSON.stringify(likedChapters));
+
+    // Send to background server
+    fetch(`/api/stats?key=likes_${chapterId}&action=increment`)
       .then(res => res.json())
       .then(data => {
-        setLikes(data.value);
-        setHasLiked(true);
-        const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
-        likedChapters.push(statsId);
-        localStorage.setItem('avotu-liked', JSON.stringify(likedChapters));
+        // Sync with server result if needed
+        if (data.count) setLikes(data.count);
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error('Like failed:', err);
+      });
   };
 
   const loadLore = (file) => {
