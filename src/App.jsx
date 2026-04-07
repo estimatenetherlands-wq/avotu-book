@@ -28,12 +28,14 @@ function App() {
     }
 
     const initPlayer = () => {
+      const randomIndex = Math.floor(Math.random() * 40); // Pick a random start track
       new window.YT.Player('yt-player-container', {
         height: '0',
         width: '0',
         playerVars: {
           listType: 'playlist',
           list: 'PLD_fAE6SAj6CaaOpCuiGDhn1BwfFE3zAg',
+          index: randomIndex, // Start at random position
           shuffle: 1,
           loop: 1,
           autoplay: 0
