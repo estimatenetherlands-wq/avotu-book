@@ -31,7 +31,7 @@ function App() {
       copied: "Скопировано!",
       views: "просмотров",
       seoTitle: "О проекте Avotu",
-      seoText: "Добро пожаловать в мир Авоту — эпическую дарк фэнтези сагу, доступную для чтения онлайн бесплатно. Исследуйте мрачные хроники огненного эльфа в мире, поглощенном пеплом. Наша гримдарк история полна магии, неоднозначных героев и суровых испытаний. Если вы ищете лучшее темное фэнтези 2025 года, вы попали по адресу.",
+      seoText: "Добро пожаловать в мир Авоту — эпическую дарк фэнтези сагу, доступную для чтения онлайн бесплатно. Исследуйте мрачные хроники огненного эльфа в мире, поглощенном пеплом. Наша гримдарк история полна магии, неоднозначных героев и суровых испытаний. Если вы ищете лучшее темное фэнтези 2026 года, вы попали по адресу.",
       loading: "Загрузка..."
     },
     en: {
@@ -52,7 +52,7 @@ function App() {
       copied: "Copied!",
       views: "views",
       seoTitle: "About Avotu Project",
-      seoText: "Welcome to the world of Avotu — an epic dark fantasy saga available to read online for free. Explore the grim chronicles of a fire elf in a world consumed by ash. Our grimdark story is filled with magic, morally grey heroes, and harsh trials. If you are looking for the best dark fantasy books of 2025, you have come to the right place.",
+      seoText: "Welcome to the world of Avotu — an epic dark fantasy saga available to read online for free. Explore the grim chronicles of a fire elf in a world consumed by ash. Our grimdark story is filled with magic, morally grey heroes, and harsh trials. If you are looking for the best dark fantasy books of 2026, you have come to the right place.",
       loading: "Loading..."
     }
   }[lang];
