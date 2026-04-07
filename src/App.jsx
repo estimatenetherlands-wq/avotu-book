@@ -127,23 +127,23 @@ function App() {
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     
     // Fetch statistics via our internal API proxy
-    const chapterId = `c${index + 1}`;
+    const chapterKey = `chapter_${index + 1}`;
     
     // Views increment
-    fetch(`/api/stats?key=views_${chapterId}&action=increment`)
+    fetch(`/api/stats?key=views_${chapterKey}&action=increment`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => setViews(data.count || 0))
       .catch(() => {});
 
     // Likes count (get only)
-    fetch(`/api/stats?key=likes_${chapterId}`)
+    fetch(`/api/stats?key=likes_${chapterKey}`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => setLikes(data.count || 0))
       .catch(() => {});
 
     // Check if user already liked
-    const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
-    setHasLiked(likedChapters.includes(chapterId));
+    const likedChapters = JSON.parse(localStorage.getItem('avotu_v2_likes') || '[]');
+    setHasLiked(likedChapters.includes(chapterKey));
 
     fetch(chapterPath)
       .then(res => {
@@ -164,24 +164,23 @@ function App() {
 
   const handleLike = () => {
     if (hasLiked || currentIdx === null) return;
-    const chapterId = `c${currentIdx + 1}`;
+    const chapterKey = `chapter_${currentIdx + 1}`;
     
     // Optimistic UI: update immediately for better UX
     setLikes(prev => prev + 1);
     setHasLiked(true);
-    const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
-    likedChapters.push(chapterId);
-    localStorage.setItem('avotu-liked', JSON.stringify(likedChapters));
+    const likedChapters = JSON.parse(localStorage.getItem('avotu_v2_likes') || '[]');
+    likedChapters.push(chapterKey);
+    localStorage.setItem('avotu_v2_likes', JSON.stringify(likedChapters));
 
     // Send to background server
-    fetch(`/api/stats?key=likes_${chapterId}&action=increment`)
+    fetch(`/api/stats?key=likes_${chapterKey}&action=increment`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        // Sync with server result if needed
-        if (data.count) setLikes(data.count);
+        if (typeof data.count === 'number') setLikes(data.count);
       })
       .catch(err => {
-        console.error('Like failed:', err);
+        console.warn('Silent fail for like sync, preserved locally:', err);
       });
   };
 
