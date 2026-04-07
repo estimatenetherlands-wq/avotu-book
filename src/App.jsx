@@ -126,23 +126,24 @@ function App() {
     // chapter.file is now just "chapter-1.json"
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     
-    // Fetch view count from CounterAPI (Shared across languages)
-    const counterKey = `avotu-chapter-${index + 1}`;
-    fetch(`https://api.counterapi.dev/v1/avotu-book/${counterKey}/increment`)
+    // Fetch statistics (Views increment, Likes just get)
+    const statsId = `avotu_c${index + 1}`;
+    
+    // Views increment
+    fetch(`https://api.countapi.it/hit/avotu.book/v_${statsId}`)
       .then(res => res.json())
-      .then(data => setViews(data.count || 0))
+      .then(data => setViews(data.value || 0))
       .catch(() => {});
 
-    // Fetch likes count
-    const likeKey = `avotu-likes-chapter-${index + 1}`;
-    fetch(`https://api.counterapi.dev/v1/avotu-book/${likeKey}`)
+    // Likes count (get only)
+    fetch(`https://api.countapi.it/get/avotu.book/l_${statsId}`)
       .then(res => res.json())
-      .then(data => setLikes(data.count || 0))
+      .then(data => setLikes(data.value || 0))
       .catch(() => {});
 
     // Check if user already liked
     const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
-    setHasLiked(likedChapters.includes(likeKey));
+    setHasLiked(likedChapters.includes(statsId));
 
     fetch(chapterPath)
       .then(res => {
@@ -163,15 +164,15 @@ function App() {
 
   const handleLike = () => {
     if (hasLiked || currentIdx === null) return;
-    const likeKey = `avotu-likes-chapter-${currentIdx + 1}`;
+    const statsId = `avotu_c${currentIdx + 1}`;
     
-    fetch(`https://api.counterapi.dev/v1/avotu-book/${likeKey}/increment`)
+    fetch(`https://api.countapi.it/hit/avotu.book/l_${statsId}`)
       .then(res => res.json())
       .then(data => {
-        setLikes(data.count);
+        setLikes(data.value);
         setHasLiked(true);
         const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
-        likedChapters.push(likeKey);
+        likedChapters.push(statsId);
         localStorage.setItem('avotu-liked', JSON.stringify(likedChapters));
       })
       .catch(err => console.error(err));
