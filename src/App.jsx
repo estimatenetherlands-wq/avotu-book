@@ -11,6 +11,8 @@ function App() {
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [views, setViews] = useState(0);
+  const [likes, setLikes] = useState(0);
+  const [hasLiked, setHasLiked] = useState(false);
 
   const t = {
     ru: {
@@ -30,6 +32,7 @@ function App() {
       bank: "Банк:",
       copied: "Скопировано!",
       views: "просмотров",
+      likes: "лайков",
       seoTitle: "О проекте Avotu",
       seoText: "Добро пожаловать в мир Авоту — эпическую дарк фэнтези сагу, доступную для чтения онлайн бесплатно. Исследуйте мрачные хроники огненного эльфа в мире, поглощенном пеплом. Наша гримдарк история полна магии, неоднозначных героев и суровых испытаний. Если вы ищете лучшее темное фэнтези 2026 года, вы попали по адресу.",
       loading: "Загрузка..."
@@ -51,6 +54,7 @@ function App() {
       bank: "Bank:",
       copied: "Copied!",
       views: "views",
+      likes: "likes",
       seoTitle: "About Avotu Project",
       seoText: "Welcome to the world of Avotu — an epic dark fantasy saga available to read online for free. Explore the grim chronicles of a fire elf in a world consumed by ash. Our grimdark story is filled with magic, morally grey heroes, and harsh trials. If you are looking for the best dark fantasy books of 2026, you have come to the right place.",
       loading: "Loading..."
@@ -129,6 +133,17 @@ function App() {
       .then(data => setViews(data.count || 0))
       .catch(() => {});
 
+    // Fetch likes count
+    const likeKey = `avotu-likes-chapter-${index + 1}`;
+    fetch(`https://api.counterapi.dev/v1/avotu-book/${likeKey}`)
+      .then(res => res.json())
+      .then(data => setLikes(data.count || 0))
+      .catch(() => {});
+
+    // Check if user already liked
+    const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
+    setHasLiked(likedChapters.includes(likeKey));
+
     fetch(chapterPath)
       .then(res => {
         if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
@@ -144,6 +159,22 @@ function App() {
         console.error(err);
         setLoading(false);
       });
+  };
+
+  const handleLike = () => {
+    if (hasLiked || currentIdx === null) return;
+    const likeKey = `avotu-likes-chapter-${currentIdx + 1}`;
+    
+    fetch(`https://api.counterapi.dev/v1/avotu-book/${likeKey}/increment`)
+      .then(res => res.json())
+      .then(data => {
+        setLikes(data.count);
+        setHasLiked(true);
+        const likedChapters = JSON.parse(localStorage.getItem('avotu-liked') || '[]');
+        likedChapters.push(likeKey);
+        localStorage.setItem('avotu-liked', JSON.stringify(likedChapters));
+      })
+      .catch(err => console.error(err));
   };
 
   const loadLore = (file) => {
@@ -226,16 +257,31 @@ function App() {
 
         {view === 'CHAPTER' && currentContent && (
           <article className="book-content">
-            <div className="chapter-header-meta">
-              <h2 className="chapter-title">{currentContent.title}</h2>
-              <div className="view-count">👁️ {views} {t.views}</div>
-            </div>
+            <h2 className="chapter-title">{currentContent.title}</h2>
             {currentContent.paragraphs.map((p, i) => {
               if (p === "***") {
                 return <div key={i} className="scene-break"></div>;
               }
               return <p key={i} className={i === 0 ? "dropcap" : ""}>{p}</p>;
             })}
+
+            <div className="chapter-stats-footer">
+              <div className="stat-item">
+                <span className="stat-icon">👁️</span>
+                <span className="stat-value">{views}</span>
+                <span className="stat-label">{t.views}</span>
+              </div>
+              <button 
+                className={`like-btn ${hasLiked ? 'active' : ''}`}
+                onClick={handleLike}
+                disabled={hasLiked}
+              >
+                <span className="stat-icon">{hasLiked ? '❤️' : '🤍'}</span>
+                <span className="stat-value">{likes}</span>
+                <span className="stat-label">{t.likes}</span>
+              </button>
+            </div>
+
             <div className="nav-buttons" style={{marginTop: '4rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem'}}>
               <button 
                 onClick={() => setView('HOME')}
