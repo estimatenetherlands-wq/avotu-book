@@ -6,8 +6,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Key is required' });
   }
 
-  // Use a fresh namespace to ensure clean start
-  const namespace = "avotu_v3_stats";
+  // Force Vercel to NOT cache this response
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+
+  const namespace = "avotu_final_2026_v4";
   const baseUrl = `https://api.counterapi.dev/v1/${namespace}/${key}`;
   const targetUrl = action === 'increment' ? `${baseUrl}/increment` : baseUrl;
 
@@ -15,17 +19,16 @@ export default async function handler(req, res) {
     const response = await fetch(targetUrl, { 
       cache: 'no-store',
       headers: {
-        'pragma': 'no-cache',
-        'cache-control': 'no-cache'
+        'Cache-Control': 'no-cache'
       }
     });
-    const data = await response.json();
     
-    if (data.code && data.code !== 200) {
+    if (!response.ok) {
         return res.status(200).json({ count: 0 });
     }
-    
-    return res.status(200).json(data);
+
+    const data = await response.json();
+    return res.status(200).json({ count: data.count || 0 });
   } catch (error) {
     console.error('API Stats Error:', error);
     return res.status(200).json({ count: 0 });

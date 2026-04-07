@@ -10,8 +10,8 @@ function App() {
   const [currentLoreFile, setCurrentLoreFile] = useState(null); // Track lore filename
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [views, setViews] = useState(0);
-  const [likes, setLikes] = useState(0);
+  const [views, setViews] = useState(null);
+  const [likes, setLikes] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
 
   const t = {
@@ -127,22 +127,22 @@ function App() {
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     
     // Fetch statistics via our internal API proxy
-    const chapterKey = `chapter_${index + 1}`;
+    const chapterKey = `v4_chapter_${index + 1}`;
     
     // Views increment
     fetch(`/api/stats?key=views_${chapterKey}&action=increment`, { cache: 'no-store' })
       .then(res => res.json())
-      .then(data => setViews(data.count || 0))
-      .catch(() => {});
+      .then(data => setViews(data.count))
+      .catch(() => setViews(0));
 
     // Likes count (get only)
     fetch(`/api/stats?key=likes_${chapterKey}`, { cache: 'no-store' })
       .then(res => res.json())
-      .then(data => setLikes(data.count || 0))
-      .catch(() => {});
+      .then(data => setLikes(data.count))
+      .catch(() => setLikes(0));
 
     // Check if user already liked
-    const likedChapters = JSON.parse(localStorage.getItem('avotu_v2_likes') || '[]');
+    const likedChapters = JSON.parse(localStorage.getItem('avotu_v4_likes') || '[]');
     setHasLiked(likedChapters.includes(chapterKey));
 
     fetch(chapterPath)
@@ -164,14 +164,14 @@ function App() {
 
   const handleLike = () => {
     if (hasLiked || currentIdx === null) return;
-    const chapterKey = `chapter_${currentIdx + 1}`;
+    const chapterKey = `v4_chapter_${currentIdx + 1}`;
     
     // Optimistic UI: update immediately for better UX
-    setLikes(prev => prev + 1);
+    setLikes(prev => (prev || 0) + 1);
     setHasLiked(true);
-    const likedChapters = JSON.parse(localStorage.getItem('avotu_v2_likes') || '[]');
+    const likedChapters = JSON.parse(localStorage.getItem('avotu_v4_likes') || '[]');
     likedChapters.push(chapterKey);
-    localStorage.setItem('avotu_v2_likes', JSON.stringify(likedChapters));
+    localStorage.setItem('avotu_v4_likes', JSON.stringify(likedChapters));
 
     // Send to background server
     fetch(`/api/stats?key=likes_${chapterKey}&action=increment`, { cache: 'no-store' })
@@ -275,7 +275,7 @@ function App() {
             <div className="chapter-stats-footer">
               <div className="stat-item">
                 <span className="stat-icon">👁️</span>
-                <span className="stat-value">{views}</span>
+                <span className="stat-value">{views !== null ? views : '...'}</span>
                 <span className="stat-label">{t.views}</span>
               </div>
               <button 
@@ -284,7 +284,7 @@ function App() {
                 disabled={hasLiked}
               >
                 <span className="stat-icon">{hasLiked ? '❤️' : '🤍'}</span>
-                <span className="stat-value">{likes}</span>
+                <span className="stat-value">{likes !== null ? likes : '...'}</span>
                 <span className="stat-label">{t.likes}</span>
               </button>
             </div>
