@@ -19,14 +19,6 @@ function App() {
 
   // Music Player Initialization
   useEffect(() => {
-    // Load YouTube API Script
-    if (!window.YT) {
-      const tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
-
     const initPlayer = () => {
       const randomIndex = Math.floor(Math.random() * 40); // Pick a random start track
       new window.YT.Player('yt-player-container', {
