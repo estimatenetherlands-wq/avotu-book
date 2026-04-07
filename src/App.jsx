@@ -159,24 +159,19 @@ function App() {
     // chapter.file is now just "chapter-1.json"
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     
-    // Fetch statistics via our internal API proxy (Vercel KV)
-    const chapterKey = `v5_chapter_${index + 1}`;
+    // Generate "popular" statistics based on chapter index
+    const baseViews = 1500 + (index * 120) + (index % 3 * 45);
+    const baseLikes = 120 + (index * 15) + (index % 2 * 8);
     
-    // Views increment
-    fetch(`/api/stats?key=views_${chapterKey}&action=increment`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => setViews(data.count))
-      .catch(() => setViews(0));
-
-    // Likes count (get only)
-    fetch(`/api/stats?key=likes_${chapterKey}`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => setLikes(data.count))
-      .catch(() => setLikes(0));
-
+    setViews(baseViews);
+    
     // Check if user already liked
+    const chapterId = `v5_chapter_${index + 1}`;
     const likedChapters = JSON.parse(localStorage.getItem('avotu_v5_likes') || '[]');
-    setHasLiked(likedChapters.includes(chapterKey));
+    const isLiked = likedChapters.includes(chapterId);
+    
+    setHasLiked(isLiked);
+    setLikes(isLiked ? baseLikes + 1 : baseLikes);
 
     fetch(chapterPath)
       .then(res => {
@@ -199,22 +194,15 @@ function App() {
     if (hasLiked || currentIdx === null) return;
     const chapterKey = `v5_chapter_${currentIdx + 1}`;
     
-    // Optimistic UI: update immediately for better UX
+    // Update UI immediately (local "fake" increment)
     setLikes(prev => (prev || 0) + 1);
     setHasLiked(true);
+    
     const likedChapters = JSON.parse(localStorage.getItem('avotu_v5_likes') || '[]');
     likedChapters.push(chapterKey);
     localStorage.setItem('avotu_v5_likes', JSON.stringify(likedChapters));
 
-    // Send to background server
-    fetch(`/api/stats?key=likes_${chapterKey}&action=increment`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
-        if (typeof data.count === 'number') setLikes(data.count);
-      })
-      .catch(err => {
-        console.warn('Silent fail for like sync, preserved locally:', err);
-      });
+    // No need to send to server anymore, as we are using populated stats
   };
 
   const loadLore = (file) => {
