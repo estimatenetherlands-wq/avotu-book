@@ -1,4 +1,6 @@
 
+import { kv } from '@vercel/kv';
+
 export default async function handler(req, res) {
   const { action, key } = req.query;
 
@@ -11,26 +13,20 @@ export default async function handler(req, res) {
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
 
-  const namespace = "avotu_final_2026_v4";
-  const baseUrl = `https://api.counterapi.dev/v1/${namespace}/${key}`;
-  const targetUrl = action === 'increment' ? `${baseUrl}/increment` : baseUrl;
-
   try {
-    const response = await fetch(targetUrl, { 
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-cache'
-      }
-    });
-    
-    if (!response.ok) {
-        return res.status(200).json({ count: 0 });
+    if (action === 'increment') {
+      // Use hincrby to store all chapter stats in one hash map or just use simple keys
+      // For simplicity and maximum compatibility, we use simple keys with a prefix
+      const currentCount = await kv.incr(`avotu_stats_${key}`);
+      return res.status(200).json({ count: currentCount });
+    } else {
+      // Get current count
+      const count = await kv.get(`avotu_stats_${key}`);
+      return res.status(200).json({ count: count || 0 });
     }
-
-    const data = await response.json();
-    return res.status(200).json({ count: data.count || 0 });
   } catch (error) {
-    console.error('API Stats Error:', error);
-    return res.status(200).json({ count: 0 });
+    console.error('Vercel KV Error:', error);
+    // Fallback if KV is not connected yet (returns 0 instead of crashing)
+    return res.status(200).json({ count: 0, warning: 'Storage not connected' });
   }
 }

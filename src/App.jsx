@@ -126,8 +126,8 @@ function App() {
     // chapter.file is now just "chapter-1.json"
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     
-    // Fetch statistics via our internal API proxy
-    const chapterKey = `v4_chapter_${index + 1}`;
+    // Fetch statistics via our internal API proxy (Vercel KV)
+    const chapterKey = `v5_chapter_${index + 1}`;
     
     // Views increment
     fetch(`/api/stats?key=views_${chapterKey}&action=increment`, { cache: 'no-store' })
@@ -142,7 +142,7 @@ function App() {
       .catch(() => setLikes(0));
 
     // Check if user already liked
-    const likedChapters = JSON.parse(localStorage.getItem('avotu_v4_likes') || '[]');
+    const likedChapters = JSON.parse(localStorage.getItem('avotu_v5_likes') || '[]');
     setHasLiked(likedChapters.includes(chapterKey));
 
     fetch(chapterPath)
@@ -164,14 +164,14 @@ function App() {
 
   const handleLike = () => {
     if (hasLiked || currentIdx === null) return;
-    const chapterKey = `v4_chapter_${currentIdx + 1}`;
+    const chapterKey = `v5_chapter_${currentIdx + 1}`;
     
     // Optimistic UI: update immediately for better UX
     setLikes(prev => (prev || 0) + 1);
     setHasLiked(true);
-    const likedChapters = JSON.parse(localStorage.getItem('avotu_v4_likes') || '[]');
+    const likedChapters = JSON.parse(localStorage.getItem('avotu_v5_likes') || '[]');
     likedChapters.push(chapterKey);
-    localStorage.setItem('avotu_v4_likes', JSON.stringify(likedChapters));
+    localStorage.setItem('avotu_v5_likes', JSON.stringify(likedChapters));
 
     // Send to background server
     fetch(`/api/stats?key=likes_${chapterKey}&action=increment`, { cache: 'no-store' })
