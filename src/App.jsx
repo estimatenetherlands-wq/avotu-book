@@ -10,6 +10,7 @@ function App() {
   const [currentLoreFile, setCurrentLoreFile] = useState(null); // Track lore filename
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [views, setViews] = useState(0);
 
   const t = {
     ru: {
@@ -28,6 +29,9 @@ function App() {
       receiver: "Получатель:",
       bank: "Банк:",
       copied: "Скопировано!",
+      views: "просмотров",
+      seoTitle: "О проекте Avotu",
+      seoText: "Добро пожаловать в мир Авоту — эпическую дарк фэнтези сагу, доступную для чтения онлайн бесплатно. Исследуйте мрачные хроники огненного эльфа в мире, поглощенном пеплом. Наша гримдарк история полна магии, неоднозначных героев и суровых испытаний. Если вы ищете лучшее темное фэнтези 2025 года, вы попали по адресу.",
       loading: "Загрузка..."
     },
     en: {
@@ -46,6 +50,9 @@ function App() {
       receiver: "Receiver:",
       bank: "Bank:",
       copied: "Copied!",
+      views: "views",
+      seoTitle: "About Avotu Project",
+      seoText: "Welcome to the world of Avotu — an epic dark fantasy saga available to read online for free. Explore the grim chronicles of a fire elf in a world consumed by ash. Our grimdark story is filled with magic, morally grey heroes, and harsh trials. If you are looking for the best dark fantasy books of 2025, you have come to the right place.",
       loading: "Loading..."
     }
   }[lang];
@@ -114,6 +121,14 @@ function App() {
     setCurrentIdx(index);
     // chapter.file is now just "chapter-1.json"
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
+    
+    // Fetch view count from CounterAPI (Shared across languages)
+    const counterKey = `avotu-chapter-${index + 1}`;
+    fetch(`https://api.counterapi.dev/v1/avotu-book/${counterKey}/increment`)
+      .then(res => res.json())
+      .then(data => setViews(data.count || 0))
+      .catch(() => {});
+
     fetch(chapterPath)
       .then(res => {
         if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
@@ -201,12 +216,20 @@ function App() {
                 </button>
               ))}
             </div>
+            
+            <section className="seo-section">
+              <h3 className="seo-title">{t.seoTitle}</h3>
+              <p className="seo-text">{t.seoText}</p>
+            </section>
           </div>
         )}
 
         {view === 'CHAPTER' && currentContent && (
           <article className="book-content">
-            <h2 className="chapter-title">{currentContent.title}</h2>
+            <div className="chapter-header-meta">
+              <h2 className="chapter-title">{currentContent.title}</h2>
+              <div className="view-count">👁️ {views} {t.views}</div>
+            </div>
             {currentContent.paragraphs.map((p, i) => {
               if (p === "***") {
                 return <div key={i} className="scene-break"></div>;
