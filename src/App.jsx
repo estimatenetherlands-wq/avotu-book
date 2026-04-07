@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import OneSignal from 'react-onesignal';
 
 function App() {
@@ -13,6 +13,72 @@ function App() {
   const [views, setViews] = useState(null);
   const [likes, setLikes] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playerReady, setPlayerReady] = useState(false);
+  const playerRef = useRef(null);
+
+  // Music Player Initialization
+  useEffect(() => {
+    // Load YouTube API Script
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    const initPlayer = () => {
+      new window.YT.Player('yt-player-container', {
+        height: '0',
+        width: '0',
+        playerVars: {
+          listType: 'playlist',
+          list: 'PLD_fAE6SAj6CaaOpCuiGDhn1BwfFE3zAg',
+          shuffle: 1,
+          loop: 1,
+          autoplay: 0
+        },
+        events: {
+          'onReady': (event) => {
+            playerRef.current = event.target;
+            setPlayerReady(true);
+            event.target.setShuffle(true);
+          },
+          'onStateChange': (event) => {
+            if (event.data === window.YT.PlayerState.PLAYING) setIsPlaying(true);
+            else setIsPlaying(false);
+          }
+        }
+      });
+    };
+
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = initPlayer;
+    }
+
+    // Global listener to start music on first interaction (browser requirement)
+    const startMusic = (e) => {
+      if (e.target.closest('.music-controller')) return;
+      if (playerRef.current && !isPlaying) {
+        playerRef.current.playVideo();
+        document.removeEventListener('click', startMusic);
+      }
+    };
+    document.addEventListener('click', startMusic);
+
+    return () => document.removeEventListener('click', startMusic);
+  }, []);
+
+  const toggleMusic = () => {
+    if (!playerRef.current) return;
+    if (isPlaying) {
+      playerRef.current.pauseVideo();
+    } else {
+      playerRef.current.playVideo();
+    }
+  };
 
   const t = {
     ru: {
@@ -393,6 +459,24 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Music Controller Overlay */}
+      <div 
+        className={`music-controller ${isPlaying ? 'playing' : ''}`} 
+        onClick={toggleMusic}
+        title={isPlaying ? "Pause Saga Music" : "Play Saga Music"}
+      >
+        <div className="visualizer">
+          <div className="visualizer-bar"></div>
+          <div className="visualizer-bar"></div>
+          <div className="visualizer-bar"></div>
+          <div className="visualizer-bar"></div>
+        </div>
+        <div className="music-info">
+          {isPlaying ? "MELODY OF ASH" : "SILENCE"}
+        </div>
+        <div id="yt-player-container"></div>
+      </div>
     </div>
   );
 }
