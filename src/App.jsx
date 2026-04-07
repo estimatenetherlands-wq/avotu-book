@@ -108,6 +108,39 @@ function App() {
     }
   }, [lang, bookIndex]);
 
+  // Dynamic SEO Title and Metadata Controller
+  useEffect(() => {
+    let title = "Avotu – Dark Fantasy Saga | Хроники Увядающего Мира";
+    let desc = "Читайте эпическую сагу Avotu в стиле Dark Fantasy. Мир пепла, огня и борьбы за выживание.";
+
+    if (view === 'CHAPTER' && currentContent) {
+      const chapterTitle = currentContent.title || `Глава ${currentIdx + 1}`;
+      title = `${chapterTitle} | Avotu Saga`;
+      desc = `Читать онлайн: ${chapterTitle}. Погрузитесь в хроники Авоту в жанре темного фэнтези.`;
+    } else if (view === 'LORE') {
+      title = `Лор Мира Avotu | Хроники`;
+      desc = "Узнайте больше о богах, магии и истории мира Avotu в разделе лора.";
+    }
+
+    document.title = title;
+    
+    // Update Meta Description dynamically
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', desc);
+    }
+
+    // Update OG Title & Description dynamically
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', title);
+    }
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) {
+      ogDesc.setAttribute('content', desc);
+    }
+  }, [view, currentContent, currentIdx, lang]);
+
   const handleSubscribe = () => {
     OneSignal.Slidedown.promptPush().catch(err => console.error(err));
   };
