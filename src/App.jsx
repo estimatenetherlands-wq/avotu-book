@@ -344,10 +344,9 @@ function App() {
               <button 
                 className={`tts-btn ${isReading ? 'reading' : ''}`}
                 onClick={toggleSpeech}
-                title={isReading ? t.stop : t.listen}
               >
                 <span className="tts-icon">{isReading ? '⏹' : '🎧'}</span>
-                {isReading ? t.stop : t.listen}
+                <span className="tts-tooltip">{isReading ? t.stop : t.listen}</span>
               </button>
             </div>
             {currentContent.paragraphs.map((p, i) => {
