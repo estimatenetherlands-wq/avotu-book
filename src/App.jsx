@@ -17,7 +17,9 @@ function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      window.speechSynthesis.cancel();
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
       setIsReading(false);
     };
     window.addEventListener('popstate', handlePopState);
@@ -191,7 +193,9 @@ function App() {
 
     fetch(chapterPath)
       .then(res => {
-        window.speechSynthesis.cancel();
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
         setIsReading(false);
         if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
         return res.json();
@@ -209,6 +213,11 @@ function App() {
   };
 
   const toggleSpeech = () => {
+    if (!window.speechSynthesis) {
+      alert("Ваш браузер не поддерживает озвучку текста.");
+      return;
+    }
+
     if (isReading) {
       window.speechSynthesis.cancel();
       setIsReading(false);
@@ -225,8 +234,10 @@ function App() {
 
       // Select voice
       const voices = window.speechSynthesis.getVoices();
-      const voice = voices.find(v => v.lang.startsWith(lang)) || voices[0];
-      if (voice) utterance.voice = voice;
+      if (voices.length > 0) {
+        const voice = voices.find(v => v.lang.startsWith(lang)) || voices[0];
+        if (voice) utterance.voice = voice;
+      }
 
       setIsReading(true);
       window.speechSynthesis.speak(utterance);
