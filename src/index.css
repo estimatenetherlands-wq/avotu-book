@@ -67,27 +67,78 @@ button {
 }
 
 .header {
-  padding: 3rem 2rem 2rem 2rem;
-  text-align: center;
+  padding: 1.5rem 1rem 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  background: linear-gradient(to bottom, rgba(8, 9, 10, 0.95) 0%, rgba(8, 9, 10, 0.8) 60%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(8, 9, 10, 0.98) 0%, rgba(8, 9, 10, 0.8) 70%, transparent 100%);
+  position: relative;
+  z-index: 100;
+}
+
+.top-bar {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1rem;
+}
+
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.lang-switcher button {
+  font-size: 0.8rem;
+  color: #555;
+  transition: all 0.3s ease;
+  padding: 2px 4px;
+}
+
+.lang-switcher button.active {
+  color: var(--accent-flame);
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.lang-switcher .divider {
+  color: #333;
+  font-size: 0.8rem;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 900px;
+  width: 100%;
 }
 
 .header h1 {
-  font-size: 3rem;
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  margin-bottom: 0.5rem;
-  background: -webkit-linear-gradient(45deg, #fff, var(--text-muted));
+  letter-spacing: 0.15em;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  background: linear-gradient(to right, #fff, #888);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+  word-wrap: break-word;
 }
 
-.header p {
+.subtitle {
   font-family: var(--font-reading);
   font-style: italic;
+  font-size: 1rem;
   color: var(--text-muted);
+  letter-spacing: 0.05em;
 }
 
 .content-wrapper {
@@ -173,11 +224,11 @@ button {
   background: var(--text-muted);
 }
 
-nav {
+.main-nav {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 3rem;
+  margin-top: 1rem;
 }
 
 .nav-link {
@@ -228,7 +279,6 @@ nav {
   }
 
   .header h1 {
-    font-size: 1.8rem;
     letter-spacing: 0.1em;
   }
 
@@ -274,9 +324,9 @@ nav {
     bottom: -10px;
   }
   
-  nav {
-    gap: 1.25rem;
-    margin-top: 1.5rem;
+  .main-nav {
+    gap: 2rem;
+    margin-top: 1rem;
   }
   
   .nav-link {

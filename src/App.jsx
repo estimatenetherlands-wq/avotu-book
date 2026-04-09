@@ -240,24 +240,30 @@ function App() {
   return (
     <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header className="header">
-        <div style={{ position: 'absolute', top: '1rem', right: '1rem', display: 'flex', gap: '0.5rem' }}>
-          <button 
-            onClick={() => setLang('ru')} 
-            style={{ color: lang === 'ru' ? 'var(--accent-flame)' : '#555', fontSize: '0.9rem', padding: '5px' }}
-          >
-            RU
-          </button>
-          <span style={{ color: '#333' }}>|</span>
-          <button 
-            onClick={() => setLang('en')} 
-            style={{ color: lang === 'en' ? 'var(--accent-flame)' : '#555', fontSize: '0.9rem', padding: '5px' }}
-          >
-            EN
-          </button>
+        <div className="top-bar">
+          <div className="lang-switcher">
+            <button 
+              className={lang === 'ru' ? 'active' : ''} 
+              onClick={() => setLang('ru')} 
+            >
+              RU
+            </button>
+            <span className="divider">|</span>
+            <button 
+              className={lang === 'en' ? 'active' : ''} 
+              onClick={() => setLang('en')} 
+            >
+              EN
+            </button>
+          </div>
         </div>
-        <h1 onClick={() => setView('HOME')} style={{cursor: 'pointer'}}>{bookIndex.title}</h1>
-        <p>{t.author}: {bookIndex.author}</p>
-        <nav>
+        
+        <div className="hero-content">
+          <h1 onClick={() => setView('HOME')}>{bookIndex.title}</h1>
+          <p className="subtitle">{t.author}: {bookIndex.author}</p>
+        </div>
+
+        <nav className="main-nav">
           <button className={`nav-link ${view === 'HOME' ? 'active' : ''}`} onClick={() => setView('HOME')}>{t.home}</button>
           <button className={`nav-link ${view === 'LORE' ? 'active' : ''}`} onClick={() => loadLore(bookIndex.lore)}>{t.lore}</button>
         </nav>
