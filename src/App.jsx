@@ -262,7 +262,8 @@ function App() {
       
     } catch (error) {
       console.error("TTS error:", error);
-      alert("Ошибка при генерации озвучки. Попробуйте обновить страницу или зайти позже.");
+      const errorMsg = error.message || "Ошибка при генерации озвучки.";
+      alert(`Сбой озвучки: ${errorMsg}\nПопробуйте обновить страницу.`);
       setTtsLoading(false);
       setIsReading(false);
     }
