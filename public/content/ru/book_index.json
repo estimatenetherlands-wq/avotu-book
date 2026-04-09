@@ -82,6 +82,11 @@
       "id": "chapter-16",
       "title": "Глава 16: Лисья сигарета и пепел",
       "file": "chapter-16.json"
+    },
+    {
+      "id": "chapter-17",
+      "title": "Глава 17: У врат увядающей вечности",
+      "file": "chapter-17.json"
     }
   ],
   "lore": "lore.json"

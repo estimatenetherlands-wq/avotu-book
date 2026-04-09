@@ -82,6 +82,11 @@
       "id": "chapter-16",
       "title": "Chapter 16: The Fox's Cigarette and Ash",
       "file": "chapter-16.json"
+    },
+    {
+      "id": "chapter-17",
+      "title": "Chapter 17: At the Gates of Fading Eternity",
+      "file": "chapter-17.json"
     }
   ],
   "lore": "lore.json"
