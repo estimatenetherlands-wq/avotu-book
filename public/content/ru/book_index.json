@@ -87,6 +87,21 @@
       "id": "chapter-17",
       "title": "Глава 17: У врат увядающей вечности",
       "file": "chapter-17.json"
+    },
+    {
+      "id": "chapter-18",
+      "title": "Глава 18: Тяжесть чужой боли",
+      "file": "chapter-18.json"
+    },
+    {
+      "id": "chapter-19",
+      "title": "Глава 19: Иллюзия Белого Зала",
+      "file": "chapter-19.json"
+    },
+    {
+      "id": "chapter-20",
+      "title": "Глава 20: Кровь и Пепел",
+      "file": "chapter-20.json"
     }
   ],
   "lore": "lore.json"

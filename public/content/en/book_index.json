@@ -87,6 +87,21 @@
       "id": "chapter-17",
       "title": "Chapter 17: At the Gates of Fading Eternity",
       "file": "chapter-17.json"
+    },
+    {
+      "id": "chapter-18",
+      "title": "Chapter 18: The Weight of Another's Pain",
+      "file": "chapter-18.json"
+    },
+    {
+      "id": "chapter-19",
+      "title": "Chapter 19: The Illusion of the White Hall",
+      "file": "chapter-19.json"
+    },
+    {
+      "id": "chapter-20",
+      "title": "Chapter 20: Blood and Ash",
+      "file": "chapter-20.json"
     }
   ],
   "lore": "lore.json"
