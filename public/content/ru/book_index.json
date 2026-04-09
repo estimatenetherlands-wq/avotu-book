@@ -62,6 +62,26 @@
       "id": "chapter-12",
       "title": "Глава 12: Идущие на смерть",
       "file": "chapter-12.json"
+    },
+    {
+      "id": "chapter-13",
+      "title": "Глава 13: Зелёная тень",
+      "file": "chapter-13.json"
+    },
+    {
+      "id": "chapter-14",
+      "title": "Глава 14: Камни и плевки",
+      "file": "chapter-14.json"
+    },
+    {
+      "id": "chapter-15",
+      "title": "Глава 15: Первый шаг",
+      "file": "chapter-15.json"
+    },
+    {
+      "id": "chapter-16",
+      "title": "Глава 16: Лисья сигарета и пепел",
+      "file": "chapter-16.json"
     }
   ],
   "lore": "lore.json"

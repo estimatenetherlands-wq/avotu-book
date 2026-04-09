@@ -3,7 +3,7 @@
   <!-- Главная страница -->
   <url>
     <loc>https://avotu-book.vercel.app/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,42 +11,48 @@
   <!-- Главы (автогенерация списка) -->
   <url>
     <loc>https://avotu-book.vercel.app/?lang=ru</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://avotu-book.vercel.app/?lang=en</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Примеры прямых ссылок на главы (для Google) -->
-  <!-- Глава 1 -->
   <url><loc>https://avotu-book.vercel.app/chapter/1?lang=ru</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/1?lang=en</loc><priority>0.7</priority></url>
-  <!-- Глава 2 -->
   <url><loc>https://avotu-book.vercel.app/chapter/2?lang=ru</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/2?lang=en</loc><priority>0.7</priority></url>
-  <!-- Глава 3 -->
   <url><loc>https://avotu-book.vercel.app/chapter/3?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 4 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/3?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/4?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 5 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/4?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/5?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 6 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/5?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/6?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 7 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/6?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/7?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 8 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/7?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/8?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 9 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/8?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/9?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 10 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/9?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/10?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 11 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/10?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/11?lang=ru</loc><priority>0.7</priority></url>
-  <!-- Глава 12 -->
+  <url><loc>https://avotu-book.vercel.app/chapter/11?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/12?lang=ru</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/12?lang=en</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/13?lang=ru</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/13?lang=en</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/14?lang=ru</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/14?lang=en</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/15?lang=ru</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/15?lang=en</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/16?lang=ru</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/16?lang=en</loc><priority>0.7</priority></url>
 </urlset>

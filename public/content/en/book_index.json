@@ -62,6 +62,26 @@
       "id": "chapter-12",
       "title": "Chapter 12: Those about to Die",
       "file": "chapter-12.json"
+    },
+    {
+      "id": "chapter-13",
+      "title": "Chapter 13: The Green Shadow",
+      "file": "chapter-13.json"
+    },
+    {
+      "id": "chapter-14",
+      "title": "Chapter 14: Stones and Spitting",
+      "file": "chapter-14.json"
+    },
+    {
+      "id": "chapter-15",
+      "title": "Chapter 15: The First Step",
+      "file": "chapter-15.json"
+    },
+    {
+      "id": "chapter-16",
+      "title": "Chapter 16: The Fox's Cigarette and Ash",
+      "file": "chapter-16.json"
     }
   ],
   "lore": "lore.json"
