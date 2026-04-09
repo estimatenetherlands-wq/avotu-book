@@ -25,12 +25,6 @@ async function generateAll() {
       const outputPath = path.join(outputDir, `chapter-${i}.mp3`);
 
       if (fs.existsSync(filePath)) {
-        // Skip if already generated and valid size (to save money on re-runs)
-        if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 100000) {
-            console.log(`Skipping Chapter ${i} (already exists)`);
-            continue;
-        }
-
         process.stdout.write(`Synthesizing Chapter ${i}... `);
         
         try {
