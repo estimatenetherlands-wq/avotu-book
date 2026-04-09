@@ -13,6 +13,16 @@ function App() {
   const [views, setViews] = useState(null);
   const [likes, setLikes] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
+  const [isReading, setIsReading] = useState(false);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      window.speechSynthesis.cancel();
+      setIsReading(false);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const t = {
     ru: {
@@ -34,6 +44,8 @@ function App() {
       copied: "Скопировано!",
       views: "просмотров",
       likes: "лайков",
+      listen: "Слушать главу",
+      stop: "Остановить",
       seoTitle: "О проекте Avotu",
       seoText: "Добро пожаловать в мир Авоту — эпическую дарк фэнтези сагу, доступную для чтения онлайн бесплатно. Исследуйте мрачные хроники огненного эльфа в мире, поглощенном пеплом. Наша гримдарк история полна магии, неоднозначных героев и суровых испытаний. Если вы ищете лучшее темное фэнтези 2026 года, вы попали по адресу.",
       loading: "Загрузка..."
@@ -57,6 +69,8 @@ function App() {
       copied: "Copied!",
       views: "views",
       likes: "likes",
+      listen: "Listen to Chapter",
+      stop: "Stop Narrating",
       seoTitle: "About Avotu Project",
       seoText: "Welcome to the world of Avotu — an epic dark fantasy saga available to read online for free. Explore the grim chronicles of a fire elf in a world consumed by ash. Our grimdark story is filled with magic, morally grey heroes, and harsh trials. If you are looking for the best dark fantasy books of 2026, you have come to the right place.",
       loading: "Loading..."
@@ -177,6 +191,8 @@ function App() {
 
     fetch(chapterPath)
       .then(res => {
+        window.speechSynthesis.cancel();
+        setIsReading(false);
         if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
         return res.json();
       })
@@ -190,6 +206,31 @@ function App() {
         console.error(err);
         setLoading(false);
       });
+  };
+
+  const toggleSpeech = () => {
+    if (isReading) {
+      window.speechSynthesis.cancel();
+      setIsReading(false);
+    } else {
+      const textToSpeak = currentContent.paragraphs
+        .filter(p => p !== "***")
+        .join('. ');
+
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = lang === 'ru' ? 'ru-RU' : 'en-US';
+      
+      utterance.onend = () => setIsReading(false);
+      utterance.onerror = () => setIsReading(false);
+
+      // Select voice
+      const voices = window.speechSynthesis.getVoices();
+      const voice = voices.find(v => v.lang.startsWith(lang)) || voices[0];
+      if (voice) utterance.voice = voice;
+
+      setIsReading(true);
+      window.speechSynthesis.speak(utterance);
+    }
   };
 
   const handleLike = () => {
@@ -287,7 +328,17 @@ function App() {
 
         {view === 'CHAPTER' && currentContent && (
           <article className="book-content">
-            <h2 className="chapter-title">{currentContent.title}</h2>
+            <div className="chapter-header">
+              <h2 className="chapter-title">{currentContent.title}</h2>
+              <button 
+                className={`tts-btn ${isReading ? 'reading' : ''}`}
+                onClick={toggleSpeech}
+                title={isReading ? t.stop : t.listen}
+              >
+                <span className="tts-icon">{isReading ? '⏹' : '🎧'}</span>
+                {isReading ? t.stop : t.listen}
+              </button>
+            </div>
             {currentContent.paragraphs.map((p, i) => {
               if (p === "***") {
                 return <div key={i} className="scene-break"></div>;
