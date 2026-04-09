@@ -592,11 +592,11 @@ button {
 }
 
 
-/* 📱 ОТЛАЖЕННАЯ МОБИЛЬНАЯ ВЕРСИЯ */
+/* 📱 ОТЛАЖЕННАЯ МОБИЛЬНАЯ ВЕРСИЯ (Максимальный комфорт чтения) */
 @media (max-width: 768px) {
   body {
-    font-size: 1.15rem;
-    line-height: 1.65;
+    font-size: 1.15rem; /* Base overall font */
+    line-height: 1.7;
   }
 
   .header {
@@ -609,24 +609,34 @@ button {
   }
 
   .content-wrapper {
-    padding: 0.25rem 0.5rem;
+    padding: 0; /* Remove wrapper padding on mobile to maximize space */
     max-width: 100%;
   }
 
   .book-content {
-    padding: 2.5rem 1.25rem;
+    padding: 2.5rem 1rem; /* Minimal side padding (16px) */
     margin-top: 0;
-    border-radius: 8px;
-    background: rgba(10, 12, 16, 0.94);
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0; /* Flat edges look better for mobile reading */
+    background: rgba(10, 12, 16, 0.96);
     box-shadow: none;
     border: none;
-    min-height: auto;
+    border-top: 1px solid rgba(255, 68, 68, 0.1);
+    min-height: 100vh;
   }
 
   .book-content p {
+    font-size: 1.2rem; /* Larger font for mobile eyes */
+    line-height: 1.75;
     text-indent: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
     text-align: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    word-break: break-word;
   }
   
   .book-content p.dropcap {
@@ -634,17 +644,18 @@ button {
   }
 
   .dropcap::first-letter {
-    font-size: 3.2rem;
-    line-height: 0.9;
-    margin-top: 0.1rem;
-    margin-right: 0.5rem;
+    font-size: 3.5rem;
+    line-height: 0.85;
+    margin-top: 0.15rem;
+    margin-right: 0.6rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   }
 
   .chapter-title {
-    font-size: 1.5rem; /* Chapter title size on mobile */
+    font-size: 1.6rem;
     margin-bottom: 2.5rem;
-    padding-right: 0 !important; /* Force reset padding */
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   .chapter-title::after {
