@@ -14,6 +14,10 @@ function App() {
   const [likes, setLikes] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
   const [isReading, setIsReading] = useState(false);
+  const [voices, setVoices] = useState([]);
+
+  // Keep a persistent reference to the utterance to prevent garbage collection on mobile
+  const utteranceRef = { current: null };
 
   useEffect(() => {
     const handlePopState = () => {
@@ -22,6 +26,17 @@ function App() {
       }
       setIsReading(false);
     };
+    
+    const loadVoices = () => {
+      const v = window.speechSynthesis.getVoices();
+      if (v.length > 0) setVoices(v);
+    };
+
+    if (window.speechSynthesis) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      loadVoices();
+    }
+
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
@@ -222,23 +237,34 @@ function App() {
       window.speechSynthesis.cancel();
       setIsReading(false);
     } else {
+      // Small delay workaround for mobile speech synthesis "unlock"
+      window.speechSynthesis.cancel(); 
+
       const textToSpeak = currentContent.paragraphs
         .filter(p => p !== "***")
         .join('. ');
 
       const utterance = new SpeechSynthesisUtterance(textToSpeak);
       utterance.lang = lang === 'ru' ? 'ru-RU' : 'en-US';
-      
-      utterance.onend = () => setIsReading(false);
-      utterance.onerror = () => setIsReading(false);
+      utterance.volume = 1;
+      utterance.rate = 1;
 
-      // Select voice
-      const voices = window.speechSynthesis.getVoices();
-      if (voices.length > 0) {
-        const voice = voices.find(v => v.lang.startsWith(lang)) || voices[0];
-        if (voice) utterance.voice = voice;
+      utterance.onend = () => setIsReading(false);
+      utterance.onerror = (event) => {
+        console.error("SpeechSynthesis error", event);
+        setIsReading(false);
+      };
+
+      // Select best voice
+      const currentVoices = voices.length > 0 ? voices : window.speechSynthesis.getVoices();
+      const voice = currentVoices.find(v => v.lang.startsWith(lang)) || currentVoices[0];
+      if (voice) {
+        utterance.voice = voice;
       }
 
+      // Store reference to prevent GC
+      utteranceRef.current = utterance;
+      
       setIsReading(true);
       window.speechSynthesis.speak(utterance);
     }
