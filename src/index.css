@@ -119,15 +119,22 @@ button {
   letter-spacing: 0.01em;
 }
 
+.book-content p.dropcap {
+  text-indent: 0;
+}
+
 /* Atmosphere specific classes */
 .dropcap::first-letter {
   font-family: var(--font-hero);
-  font-size: 3.5rem;
+  font-size: 4.2rem;
   float: left;
-  line-height: 0.8;
-  padding-right: 0.5rem;
-  padding-top: 0.2rem;
+  line-height: 1;
+  margin-right: 0.2rem;
+  margin-top: -0.1rem;
+  margin-bottom: -0.5rem;
   color: var(--accent-flame);
+  font-weight: 700;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
 }
 
 .scene-break {
@@ -250,9 +257,11 @@ nav {
   }
 
   .dropcap::first-letter {
-    font-size: 3rem;
+    font-size: 3.2rem;
+    line-height: 0.9;
     margin-top: 0.1rem;
-    margin-right: 0.4rem;
+    margin-right: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   }
 
   .chapter-title {
