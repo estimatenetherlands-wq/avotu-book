@@ -13,25 +13,7 @@ function App() {
   const [views, setViews] = useState(null);
   const [likes, setLikes] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
-  const [isReading, setIsReading] = useState(false);
-  const [ttsLoading, setTtsLoading] = useState(false);
 
-  // Reference for the audio player component
-  const audioRef = { current: null };
-
-  useEffect(() => {
-    const handlePopState = () => {
-      if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      setIsReading(false);
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
 
   const t = {
     ru: {
@@ -53,8 +35,6 @@ function App() {
       copied: "Скопировано!",
       views: "просмотров",
       likes: "лайков",
-      listen: "Слушать главу",
-      stop: "Остановить",
       seoTitle: "О проекте Avotu",
       seoText: "Добро пожаловать в мир Авоту — эпическую дарк фэнтези сагу, доступную для чтения онлайн бесплатно. Исследуйте мрачные хроники огненного эльфа в мире, поглощенном пеплом. Наша гримдарк история полна магии, неоднозначных героев и суровых испытаний. Если вы ищете лучшее темное фэнтези 2026 года, вы попали по адресу.",
       loading: "Загрузка..."
@@ -78,8 +58,6 @@ function App() {
       copied: "Copied!",
       views: "views",
       likes: "likes",
-      listen: "Listen to Chapter",
-      stop: "Stop Narrating",
       seoTitle: "About Avotu Project",
       seoText: "Welcome to the world of Avotu — an epic dark fantasy saga available to read online for free. Explore the grim chronicles of a fire elf in a world consumed by ash. Our grimdark story is filled with magic, morally grey heroes, and harsh trials. If you are looking for the best dark fantasy books of 2026, you have come to the right place.",
       loading: "Loading..."
@@ -200,10 +178,6 @@ function App() {
 
     fetch(chapterPath)
       .then(res => {
-        if (audioRef.current) {
-          audioRef.current.pause();
-        }
-        setIsReading(false);
         if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
         return res.json();
       })
@@ -219,55 +193,6 @@ function App() {
       });
   };
 
-  const toggleSpeech = async () => {
-    if (isReading) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      setIsReading(false);
-      return;
-    }
-
-    setTtsLoading(true);
-    try {
-      const textToSpeak = currentContent.paragraphs
-        .filter(p => p !== "***")
-        .join('\n\n');
-
-      const response = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: textToSpeak, lang })
-      });
-
-      if (!response.ok) throw new Error('TTS generation failed');
-
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      
-      const audio = new Audio(url);
-      audioRef.current = audio;
-      
-      audio.onended = () => {
-        setIsReading(false);
-        setTtsLoading(false);
-        URL.revokeObjectURL(url);
-      };
-
-      audio.oncanplaythrough = () => {
-        setTtsLoading(false);
-        setIsReading(true);
-        audio.play();
-      };
-      
-    } catch (error) {
-      console.error("TTS error:", error);
-      const errorMsg = error.message || "Ошибка при генерации озвучки.";
-      alert(`Сбой озвучки: ${errorMsg}\nПопробуйте обновить страницу.`);
-      setTtsLoading(false);
-      setIsReading(false);
-    }
-  };
 
   const handleLike = () => {
     if (hasLiked || currentIdx === null) return;
@@ -366,18 +291,6 @@ function App() {
           <article className="book-content">
             <div className="chapter-header">
               <h2 className="chapter-title">{currentContent.title}</h2>
-              <button 
-                className={`tts-btn ${isReading ? 'reading' : ''} ${ttsLoading ? 'loading' : ''}`}
-                onClick={toggleSpeech}
-                disabled={ttsLoading}
-              >
-                <span className="tts-icon">
-                  {ttsLoading ? '⏳' : (isReading ? '⏹' : '🎧')}
-                </span>
-                <span className="tts-tooltip">
-                  {ttsLoading ? 'Генерация...' : (isReading ? t.stop : t.listen)}
-                </span>
-              </button>
             </div>
             {currentContent.paragraphs.map((p, i) => {
               if (p === "***") {
