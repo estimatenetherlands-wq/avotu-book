@@ -14,29 +14,21 @@ function App() {
   const [likes, setLikes] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
   const [isReading, setIsReading] = useState(false);
-  const [voices, setVoices] = useState([]);
+  const [ttsLoading, setTtsLoading] = useState(false);
 
-  // Keep a persistent reference to the utterance to prevent garbage collection on mobile
-  const utteranceRef = { current: null };
+  // Reference for the audio player component
+  const audioRef = { current: null };
 
   useEffect(() => {
     const handlePopState = () => {
       if (window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
       setIsReading(false);
     };
-    
-    const loadVoices = () => {
-      const v = window.speechSynthesis.getVoices();
-      if (v.length > 0) setVoices(v);
-    };
-
-    if (window.speechSynthesis) {
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-      loadVoices();
-    }
-
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
@@ -208,8 +200,8 @@ function App() {
 
     fetch(chapterPath)
       .then(res => {
-        if (window.speechSynthesis) {
-          window.speechSynthesis.cancel();
+        if (audioRef.current) {
+          audioRef.current.pause();
         }
         setIsReading(false);
         if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
@@ -227,46 +219,52 @@ function App() {
       });
   };
 
-  const toggleSpeech = () => {
-    if (!window.speechSynthesis) {
-      alert("Ваш браузер не поддерживает озвучку текста.");
+  const toggleSpeech = async () => {
+    if (isReading) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setIsReading(false);
       return;
     }
 
-    if (isReading) {
-      window.speechSynthesis.cancel();
-      setIsReading(false);
-    } else {
-      // Small delay workaround for mobile speech synthesis "unlock"
-      window.speechSynthesis.cancel(); 
-
+    setTtsLoading(true);
+    try {
       const textToSpeak = currentContent.paragraphs
         .filter(p => p !== "***")
-        .join('. ');
+        .join('\n\n');
 
-      const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      utterance.lang = lang === 'ru' ? 'ru-RU' : 'en-US';
-      utterance.volume = 1;
-      utterance.rate = 1;
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: textToSpeak, lang })
+      });
 
-      utterance.onend = () => setIsReading(false);
-      utterance.onerror = (event) => {
-        console.error("SpeechSynthesis error", event);
+      if (!response.ok) throw new Error('TTS generation failed');
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      
+      audio.onended = () => {
         setIsReading(false);
+        setTtsLoading(false);
+        URL.revokeObjectURL(url);
       };
 
-      // Select best voice
-      const currentVoices = voices.length > 0 ? voices : window.speechSynthesis.getVoices();
-      const voice = currentVoices.find(v => v.lang.startsWith(lang)) || currentVoices[0];
-      if (voice) {
-        utterance.voice = voice;
-      }
-
-      // Store reference to prevent GC
-      utteranceRef.current = utterance;
+      audio.oncanplaythrough = () => {
+        setTtsLoading(false);
+        setIsReading(true);
+        audio.play();
+      };
       
-      setIsReading(true);
-      window.speechSynthesis.speak(utterance);
+    } catch (error) {
+      console.error("OpenAI TTS error:", error);
+      alert("Ошибка при генерации озвучки. Проверьте остаток средств/баланс в OpenAI.");
+      setTtsLoading(false);
+      setIsReading(false);
     }
   };
 
@@ -368,11 +366,16 @@ function App() {
             <div className="chapter-header">
               <h2 className="chapter-title">{currentContent.title}</h2>
               <button 
-                className={`tts-btn ${isReading ? 'reading' : ''}`}
+                className={`tts-btn ${isReading ? 'reading' : ''} ${ttsLoading ? 'loading' : ''}`}
                 onClick={toggleSpeech}
+                disabled={ttsLoading}
               >
-                <span className="tts-icon">{isReading ? '⏹' : '🎧'}</span>
-                <span className="tts-tooltip">{isReading ? t.stop : t.listen}</span>
+                <span className="tts-icon">
+                  {ttsLoading ? '⏳' : (isReading ? '⏹' : '🎧')}
+                </span>
+                <span className="tts-tooltip">
+                  {ttsLoading ? 'Генерация...' : (isReading ? t.stop : t.listen)}
+                </span>
               </button>
             </div>
             {currentContent.paragraphs.map((p, i) => {
