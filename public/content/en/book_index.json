@@ -1,118 +1,32 @@
 {
-  "title": "Avotu: Chronicles of a Fading World",
+  "title": "Avotu: The Fire Elf Saga",
   "author": "Mays",
-  "description": "The world collapsed two years ago. Sivarus vanished, leaving only myths. Portals spew monsters, and the remains of civilization are swallowed by ash. But amidst this chaos walks one whose hair blazes with black fire.",
+  "description": "An epic saga in a world consumed by ash. Dark chronicles of the fire elf in a world full of magic, ambiguous heroes, and harsh trials.",
   "chapters": [
-    {
-      "id": "chapter-1",
-      "title": "Chapter 1: Ash and Flame",
-      "file": "chapter-1.json"
-    },
-    {
-      "id": "chapter-2",
-      "title": "Chapter 2: Voice from the Abyss",
-      "file": "chapter-2.json"
-    },
-    {
-      "id": "chapter-3",
-      "title": "Chapter 3: Shadow among Ashes",
-      "file": "chapter-3.json"
-    },
-    {
-      "id": "chapter-4",
-      "title": "Chapter 4: Under the Storm's Wing",
-      "file": "chapter-4.json"
-    },
-    {
-      "id": "chapter-5",
-      "title": "Chapter 5: Trial of Strength",
-      "file": "chapter-5.json"
-    },
-    {
-      "id": "chapter-6",
-      "title": "Chapter 6: Flame and Brotherhood",
-      "file": "chapter-6.json"
-    },
-    {
-      "id": "chapter-7",
-      "title": "Chapter 7: The Gates of Agdash",
-      "file": "chapter-7.json"
-    },
-    {
-      "id": "chapter-8",
-      "title": "Chapter 8: Architecture of Despair",
-      "file": "chapter-8.json"
-    },
-    {
-      "id": "chapter-9",
-      "title": "Chapter 9: Sparks in the Dark",
-      "file": "chapter-9.json"
-    },
-    {
-      "id": "chapter-10",
-      "title": "Chapter 10: Laws of Survival",
-      "file": "chapter-10.json"
-    },
-    {
-      "id": "chapter-11",
-      "title": "Chapter 11: Armor and Will",
-      "file": "chapter-11.json"
-    },
-    {
-      "id": "chapter-12",
-      "title": "Chapter 12: Those about to Die",
-      "file": "chapter-12.json"
-    },
-    {
-      "id": "chapter-13",
-      "title": "Chapter 13: The Green Shadow",
-      "file": "chapter-13.json"
-    },
-    {
-      "id": "chapter-14",
-      "title": "Chapter 14: Stones and Spitting",
-      "file": "chapter-14.json"
-    },
-    {
-      "id": "chapter-15",
-      "title": "Chapter 15: The First Step",
-      "file": "chapter-15.json"
-    },
-    {
-      "id": "chapter-16",
-      "title": "Chapter 16: The Fox's Cigarette and Ash",
-      "file": "chapter-16.json"
-    },
-    {
-      "id": "chapter-17",
-      "title": "Chapter 17: At the Gates of Fading Eternity",
-      "file": "chapter-17.json"
-    },
-    {
-      "id": "chapter-18",
-      "title": "Chapter 18: The Weight of Another's Pain",
-      "file": "chapter-18.json"
-    },
-    {
-      "id": "chapter-19",
-      "title": "Chapter 19: The Illusion of the White Hall",
-      "file": "chapter-19.json"
-    },
-    {
-      "id": "chapter-20",
-      "title": "Chapter 20: Blood and Ash",
-      "file": "chapter-20.json"
-    },
-    {
-      "id": "chapter-21",
-      "title": "Chapter 21: Meeting at the Edge of the Abyss",
-      "file": "chapter-21.json"
-    },
-    {
-      "id": "chapter-22",
-      "title": "Chapter 22: Sky Necrosis",
-      "file": "chapter-22.json"
-    }
+    { "id": "chapter-1", "title": "Chapter 1: Ash and Flame", "file": "chapter-1.json" },
+    { "id": "chapter-2", "title": "Chapter 2: Voice from the Abyss", "file": "chapter-2.json" },
+    { "id": "chapter-3", "title": "Chapter 3: Shadow of the Past", "file": "chapter-3.json" },
+    { "id": "chapter-4", "title": "Chapter 4: Under the Green Dome", "file": "chapter-4.json" },
+    { "id": "chapter-5", "title": "Chapter 5: Whispers and Ash", "file": "chapter-5.json" },
+    { "id": "chapter-6", "title": "Chapter 6: Secrets of the Red City", "file": "chapter-6.json" },
+    { "id": "chapter-7", "title": "Chapter 7: Secret of the Burning Forest", "file": "chapter-7.json" },
+    { "id": "chapter-8", "title": "Chapter 8: Deadly Trap", "file": "chapter-8.json" },
+    { "id": "chapter-9", "title": "Chapter 9: Battle in the Mist", "file": "chapter-9.json" },
+    { "id": "chapter-10", "title": "Chapter 10: Last Hope", "file": "chapter-10.json" },
+    { "id": "chapter-11", "title": "Chapter 11: Flame and Steel", "file": "chapter-11.json" },
+    { "id": "chapter-12", "title": "Chapter 12: Those Walking to Death", "file": "chapter-12.json" },
+    { "id": "chapter-13", "title": "Chapter 13: The Price of Kindness", "file": "chapter-13.json" },
+    { "id": "chapter-14", "title": "Chapter 14: Iron Embrace", "file": "chapter-14.json" },
+    { "id": "chapter-15", "title": "Chapter 15: The First Step", "file": "chapter-15.json" },
+    { "id": "chapter-16", "title": "Chapter 16: Ash and Mint Tobacco", "file": "chapter-16.json" },
+    { "id": "chapter-17", "title": "Chapter 17: The Art of Being a Target", "file": "chapter-17.json" },
+    { "id": "chapter-18", "title": "Chapter 18: Cold Eternity", "file": "chapter-18.json" },
+    { "id": "chapter-19", "title": "Chapter 19: The Warmth of Black Flame", "file": "chapter-19.json" },
+    { "id": "chapter-20", "title": "Chapter 20: Locked Doors of Mercy", "file": "chapter-20.json" },
+    { "id": "chapter-21", "title": "Chapter 21: Ice and Fury", "file": "chapter-21.json" },
+    { "id": "chapter-22", "title": "Chapter 22: The One Who Lights the Light", "file": "chapter-22.json" },
+    { "id": "chapter-23", "title": "Chapter 23: The Silence of Green Leaves", "file": "chapter-23.json" },
+    { "id": "chapter-24", "title": "Chapter 24: The Celestial Hall", "file": "chapter-24.json" }
   ],
   "lore": "lore.json"
 }

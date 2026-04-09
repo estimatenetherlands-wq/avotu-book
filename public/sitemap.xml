@@ -8,7 +8,6 @@
     <priority>1.0</priority>
   </url>
   
-  <!-- Главы (автогенерация списка) -->
   <url>
     <loc>https://avotu-book.vercel.app/?lang=ru</loc>
     <lastmod>2026-04-09</lastmod>
@@ -22,7 +21,7 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Примеры прямых ссылок на главы (для Google) -->
+  <!-- Ссылки на главы -->
   <url><loc>https://avotu-book.vercel.app/chapter/1?lang=ru</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/1?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/2?lang=ru</loc><priority>0.7</priority></url>
@@ -67,4 +66,8 @@
   <url><loc>https://avotu-book.vercel.app/chapter/21?lang=en</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/22?lang=ru</loc><priority>0.7</priority></url>
   <url><loc>https://avotu-book.vercel.app/chapter/22?lang=en</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/23?lang=ru</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/23?lang=en</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/24?lang=ru</loc><priority>0.7</priority></url>
+  <url><loc>https://avotu-book.vercel.app/chapter/24?lang=en</loc><priority>0.7</priority></url>
 </urlset>

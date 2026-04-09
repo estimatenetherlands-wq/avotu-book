@@ -1,118 +1,32 @@
 {
-  "title": "Avotu: Хроники Увядающего Мира",
+  "title": "Avotu: Сага об Огненном Эльфе",
   "author": "Mays",
-  "description": "Мир рухнул два года назад. Сиварус исчез, оставив лишь мифы. Порталы извергают тварей, а останки цивилизации поглощает пепел. Но среди этого хаоса ступает тот, чьи волосы пылают черным огнем.",
+  "description": "Эпическая сага в мире, поглощенном пеплом. Мрачные хроники огненного эльфа в мире, полном магии, неоднозначных героев и суровых испытаний.",
   "chapters": [
-    {
-      "id": "chapter-1",
-      "title": "Глава 1: Пепел и Пламя",
-      "file": "chapter-1.json"
-    },
-    {
-      "id": "chapter-2",
-      "title": "Глава 2: Голос из Бездны",
-      "file": "chapter-2.json"
-    },
-    {
-      "id": "chapter-3",
-      "title": "Глава 3: След Брата",
-      "file": "chapter-3.json"
-    },
-    {
-      "id": "chapter-4",
-      "title": "Глава 4: Под крылом бури",
-      "file": "chapter-4.json"
-    },
-    {
-      "id": "chapter-5",
-      "title": "Глава 5: Допрос и Проверка",
-      "file": "chapter-5.json"
-    },
-    {
-      "id": "chapter-6",
-      "title": "Глава 6: У костра и залечивание ран",
-      "file": "chapter-6.json"
-    },
-    {
-      "id": "chapter-7",
-      "title": "Глава 7: Врата Агдаша",
-      "file": "chapter-7.json"
-    },
-    {
-      "id": "chapter-8",
-      "title": "Глава 8: Архитектура отчаяния",
-      "file": "chapter-8.json"
-    },
-    {
-      "id": "chapter-9",
-      "title": "Глава 9: Искры во тьме",
-      "file": "chapter-9.json"
-    },
-    {
-      "id": "chapter-10",
-      "title": "Глава 10: Законы выживания",
-      "file": "chapter-10.json"
-    },
-    {
-      "id": "chapter-11",
-      "title": "Глава 11: Броня и Воля",
-      "file": "chapter-11.json"
-    },
-    {
-      "id": "chapter-12",
-      "title": "Глава 12: Идущие на смерть",
-      "file": "chapter-12.json"
-    },
-    {
-      "id": "chapter-13",
-      "title": "Глава 13: Зелёная тень",
-      "file": "chapter-13.json"
-    },
-    {
-      "id": "chapter-14",
-      "title": "Глава 14: Камни и плевки",
-      "file": "chapter-14.json"
-    },
-    {
-      "id": "chapter-15",
-      "title": "Глава 15: Первый шаг",
-      "file": "chapter-15.json"
-    },
-    {
-      "id": "chapter-16",
-      "title": "Глава 16: Лисья сигарета и пепел",
-      "file": "chapter-16.json"
-    },
-    {
-      "id": "chapter-17",
-      "title": "Глава 17: У врат увядающей вечности",
-      "file": "chapter-17.json"
-    },
-    {
-      "id": "chapter-18",
-      "title": "Глава 18: Тяжесть чужой боли",
-      "file": "chapter-18.json"
-    },
-    {
-      "id": "chapter-19",
-      "title": "Глава 19: Иллюзия Белого Зала",
-      "file": "chapter-19.json"
-    },
-    {
-      "id": "chapter-20",
-      "title": "Глава 20: Кровь и Пепел",
-      "file": "chapter-20.json"
-    },
-    {
-      "id": "chapter-21",
-      "title": "Глава 21: Встреча на краю бездны",
-      "file": "chapter-21.json"
-    },
-    {
-      "id": "chapter-22",
-      "title": "Глава 22: Некроз Небес",
-      "file": "chapter-22.json"
-    }
+    { "id": "chapter-1", "title": "Глава 1: Пепел и Пламя", "file": "chapter-1.json" },
+    { "id": "chapter-2", "title": "Глава 2: Голос из Бездны", "file": "chapter-2.json" },
+    { "id": "chapter-3", "title": "Глава 3: Тень Прошлого", "file": "chapter-3.json" },
+    { "id": "chapter-4", "title": "Глава 4: Под Зелёным Куполом", "file": "chapter-4.json" },
+    { "id": "chapter-5", "title": "Глава 5: Шепот и Пепел", "file": "chapter-5.json" },
+    { "id": "chapter-6", "title": "Глава 6: Секреты Красного Города", "file": "chapter-6.json" },
+    { "id": "chapter-7", "title": "Глава 7: Тайна Пылающего Леса", "file": "chapter-7.json" },
+    { "id": "chapter-8", "title": "Глава 8: Смертельная Ловушка", "file": "chapter-8.json" },
+    { "id": "chapter-9", "title": "Глава 9: Битва в Тумане", "file": "chapter-9.json" },
+    { "id": "chapter-10", "title": "Глава 10: Последняя Надежда", "file": "chapter-10.json" },
+    { "id": "chapter-11", "title": "Глава 11: Пламя и Сталь", "file": "chapter-11.json" },
+    { "id": "chapter-12", "title": "Глава 12: Идущие на смерть", "file": "chapter-12.json" },
+    { "id": "chapter-13", "title": "Глава 13: Цена доброты", "file": "chapter-13.json" },
+    { "id": "chapter-14", "title": "Глава 14: Железные объятия", "file": "chapter-14.json" },
+    { "id": "chapter-15", "title": "Глава 15: Первый шаг", "file": "chapter-15.json" },
+    { "id": "chapter-16", "title": "Глава 16: Пепел и мятный табак", "file": "chapter-16.json" },
+    { "id": "chapter-17", "title": "Глава 17: Искусство быть мишенью", "file": "chapter-17.json" },
+    { "id": "chapter-18", "title": "Глава 18: Холодная вечность", "file": "chapter-18.json" },
+    { "id": "chapter-19", "title": "Глава 19: Тепло черного пламени", "file": "chapter-19.json" },
+    { "id": "chapter-20", "title": "Глава 20: Запертые двери милосердия", "file": "chapter-20.json" },
+    { "id": "chapter-21", "title": "Глава 21: Лед и ярость", "file": "chapter-21.json" },
+    { "id": "chapter-22", "title": "Глава 22: Тот, кто зажигает свет", "file": "chapter-22.json" },
+    { "id": "chapter-23", "title": "Глава 23: Тишина зеленых листьев", "file": "chapter-23.json" },
+    { "id": "chapter-24", "title": "Глава 24: Небесный Чертог", "file": "chapter-24.json" }
   ],
   "lore": "lore.json"
 }
