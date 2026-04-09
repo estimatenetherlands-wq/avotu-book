@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import OneSignal from 'react-onesignal';
 
 function App() {
@@ -13,6 +13,11 @@ function App() {
   const [views, setViews] = useState(null);
   const [likes, setLikes] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
+  const [isReading, setIsReading] = useState(false);
+  const [ttsLoading, setTtsLoading] = useState(false);
+
+  // Reference for the audio player component
+  const audioRef = useRef(null);
 
 
   const t = {
@@ -35,6 +40,9 @@ function App() {
       copied: "Скопировано!",
       views: "просмотров",
       likes: "лайков",
+      listen: "Слушать главу",
+      stop: "Остановить",
+      generating: "Генерация...",
       seoTitle: "О проекте Avotu",
       seoText: "Добро пожаловать в мир Авоту — эпическую дарк фэнтези сагу, доступную для чтения онлайн бесплатно. Исследуйте мрачные хроники огненного эльфа в мире, поглощенном пеплом. Наша гримдарк история полна магии, неоднозначных героев и суровых испытаний. Если вы ищете лучшее темное фэнтези 2026 года, вы попали по адресу.",
       loading: "Загрузка..."
@@ -58,6 +66,9 @@ function App() {
       copied: "Copied!",
       views: "views",
       likes: "likes",
+      listen: "Listen to Chapter",
+      stop: "Stop Narrating",
+      generating: "Synthesizing...",
       seoTitle: "About Avotu Project",
       seoText: "Welcome to the world of Avotu — an epic dark fantasy saga available to read online for free. Explore the grim chronicles of a fire elf in a world consumed by ash. Our grimdark story is filled with magic, morally grey heroes, and harsh trials. If you are looking for the best dark fantasy books of 2026, you have come to the right place.",
       loading: "Loading..."
@@ -178,6 +189,10 @@ function App() {
 
     fetch(chapterPath)
       .then(res => {
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        setIsReading(false);
         if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
         return res.json();
       })
@@ -191,6 +206,47 @@ function App() {
         console.error(err);
         setLoading(false);
       });
+  };
+
+  const toggleSpeech = async () => {
+    if (isReading) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setIsReading(false);
+      return;
+    }
+
+    setTtsLoading(true);
+    try {
+      // Path to pre-generated audio file
+      const audioUrl = `/audio/${lang}/chapter-${currentIdx + 1}.mp3`;
+      
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+      
+      audio.onended = () => {
+        setIsReading(false);
+        setTtsLoading(false);
+      };
+
+      audio.oncanplaythrough = () => {
+        setTtsLoading(false);
+        setIsReading(true);
+        audio.play().catch(e => console.error("Playback error:", e));
+      };
+
+      audio.onerror = () => {
+        setTtsLoading(false);
+        setIsReading(false);
+        alert("Озвучка этой главы еще готовится. Подождите пару минут.");
+      };
+      
+    } catch (error) {
+      console.error("Audio error:", error);
+      setTtsLoading(false);
+      setIsReading(false);
+    }
   };
 
 
@@ -297,6 +353,18 @@ function App() {
           <article className="book-content">
             <div className="chapter-header">
               <h2 className="chapter-title">{currentContent.title}</h2>
+              <button 
+                className={`tts-btn ${isReading ? 'reading' : ''} ${ttsLoading ? 'loading' : ''}`}
+                onClick={toggleSpeech}
+                disabled={ttsLoading}
+              >
+                <span className="tts-icon">
+                  {ttsLoading ? '⏳' : (isReading ? '⏹' : '🎧')}
+                </span>
+                <span className="tts-tooltip">
+                  {ttsLoading ? t.generating : (isReading ? t.stop : t.listen)}
+                </span>
+              </button>
             </div>
             {currentContent.paragraphs.map((p, i) => {
               if (p === "***") {
