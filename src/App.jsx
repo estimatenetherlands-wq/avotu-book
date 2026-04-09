@@ -261,8 +261,8 @@ function App() {
       };
       
     } catch (error) {
-      console.error("OpenAI TTS error:", error);
-      alert("Ошибка при генерации озвучки. Проверьте остаток средств/баланс в OpenAI.");
+      console.error("TTS error:", error);
+      alert("Ошибка при генерации озвучки. Попробуйте обновить страницу или зайти позже.");
       setTtsLoading(false);
       setIsReading(false);
     }
