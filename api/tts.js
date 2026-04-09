@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const tts = new MsEdgeTTS();
+    const tts = new MsEdgeTTS({});
     
     // Voices: Dmitry (RU) and Christopher (EN)
     const voice = lang === 'ru' ? 'ru-RU-DmitryNeural' : 'en-US-ChristopherNeural';
@@ -20,9 +20,16 @@ export default async function handler(req, res) {
     // Use a slightly faster bit rate to stay under Vercel's 10s timeout
     await tts.setMetadata(voice, 'audio-24khz-48kbitrate-mono-mp3');
     
-    // Edge TTS can fail if the text is too long for one request (~10-15s synthesis)
-    // We'll try to process it, if it fails, we might need to split it
-    const audioBuffer = await tts.toAudioData(text);
+    const stream = tts.toStream(text);
+    const chunks = [];
+    for await (const chunk of stream) {
+        if (Buffer.isBuffer(chunk)) {
+            chunks.push(chunk);
+        } else if (typeof chunk === 'string') {
+            chunks.push(Buffer.from(chunk, 'utf8'));
+        }
+    }
+    const audioBuffer = Buffer.concat(chunks);
 
     if (!audioBuffer || audioBuffer.length === 0) {
       throw new Error('Microsoft servers returned empty audio');
