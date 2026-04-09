@@ -102,6 +102,16 @@
       "id": "chapter-20",
       "title": "Глава 20: Кровь и Пепел",
       "file": "chapter-20.json"
+    },
+    {
+      "id": "chapter-21",
+      "title": "Глава 21: Встреча на краю бездны",
+      "file": "chapter-21.json"
+    },
+    {
+      "id": "chapter-22",
+      "title": "Глава 22: Некроз Небес",
+      "file": "chapter-22.json"
     }
   ],
   "lore": "lore.json"

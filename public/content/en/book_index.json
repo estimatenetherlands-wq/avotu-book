@@ -102,6 +102,16 @@
       "id": "chapter-20",
       "title": "Chapter 20: Blood and Ash",
       "file": "chapter-20.json"
+    },
+    {
+      "id": "chapter-21",
+      "title": "Chapter 21: Meeting at the Edge of the Abyss",
+      "file": "chapter-21.json"
+    },
+    {
+      "id": "chapter-22",
+      "title": "Chapter 22: Sky Necrosis",
+      "file": "chapter-22.json"
     }
   ],
   "lore": "lore.json"
