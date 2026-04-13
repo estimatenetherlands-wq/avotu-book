@@ -26,7 +26,8 @@
     { "id": "chapter-21", "title": "Chapter 21: Ice and Fury", "file": "chapter-21.json" },
     { "id": "chapter-22", "title": "Chapter 22: The One Who Lights the Light", "file": "chapter-22.json" },
     { "id": "chapter-23", "title": "Chapter 23: The Silence of Green Leaves", "file": "chapter-23.json" },
-    { "id": "chapter-24", "title": "Chapter 24: The Celestial Hall", "file": "chapter-24.json" }
+    { "id": "chapter-24", "title": "Chapter 24: The Celestial Hall", "file": "chapter-24.json" },
+    { "id": "chapter-25", "title": "Chapter 25: A Stranger Among His Own", "file": "chapter-25.json" }
   ],
   "lore": "lore.json"
 }
