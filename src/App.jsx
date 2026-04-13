@@ -173,9 +173,11 @@ function App() {
     // chapter.file is now just "chapter-1.json"
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     
-    // Generate "popular" statistics based on chapter index
-    const baseViews = 1500 + (index * 120) + (index % 3 * 45);
-    const baseLikes = 120 + (index * 15) + (index % 2 * 8);
+    // Generate "popular" statistics based on chapter index (inverse logic: earlier chapters have MORE views)
+    const totalChapters = bookIndex.chapters.length;
+    const reverseIdx = totalChapters - index;
+    const baseViews = 1200 + (reverseIdx * 120) + (index % 3 * 45);
+    const baseLikes = 120 + (reverseIdx * 15) + (index % 2 * 8);
     
     setViews(baseViews);
     
