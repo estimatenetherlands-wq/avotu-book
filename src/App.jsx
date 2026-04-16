@@ -8,7 +8,6 @@ function App() {
   const [currentContent, setCurrentContent] = useState(null);
   const [currentIdx, setCurrentIdx] = useState(null); // Track chapter number
   const [currentLoreFile, setCurrentLoreFile] = useState(null); // Track lore filename
-  const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [views, setViews] = useState(null);
   const [likes, setLikes] = useState(null);
@@ -33,11 +32,6 @@ function App() {
       telegram: "Телеграм-канал",
       push: "Пуш-уведомления",
       subscribe: "Уведомлять о новых главах",
-      support: "Поддержать автора",
-      supportDesc: "Каждая монета помогает ковать будущее хроник Авоту.",
-      receiver: "Получатель:",
-      bank: "Банк:",
-      copied: "Скопировано!",
       views: "просмотров",
       likes: "лайков",
       listen: "Слушать главу",
@@ -59,11 +53,6 @@ function App() {
       telegram: "Join Telegram",
       push: "Push Notifications",
       subscribe: "Notify me about new chapters",
-      support: "Support the author",
-      supportDesc: "Every coin helps forge the future of Avotu Chronicles.",
-      receiver: "Receiver:",
-      bank: "Bank:",
-      copied: "Copied!",
       views: "views",
       likes: "likes",
       listen: "Listen to Chapter",
@@ -157,13 +146,6 @@ function App() {
 
   const handleSubscribe = () => {
     OneSignal.Slidedown.promptPush().catch(err => console.error(err));
-  };
-
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
   };
 
   const loadChapter = (chapter, index) => {
@@ -452,37 +434,6 @@ function App() {
           </a>
         </div>
         
-        <div className="support-card">
-          <div className="support-card-header">
-            <span className="support-icon">🏛️</span>
-            <div>
-              <p className="support-title">{t.support}</p>
-              <p className="support-desc">{t.supportDesc}</p>
-            </div>
-          </div>
-          <div className="support-info">
-            <div className="support-details">
-              <span className="support-label">{t.receiver}</span>
-              <span className="support-value">Anar Agadzhanov</span>
-            </div>
-            <div className="support-details">
-              <span className="support-label">{t.bank}</span>
-              <span className="support-value">ING Bank</span>
-            </div>
-            <div className="support-details">
-              <span className="support-label">IBAN:</span>
-              <div className="support-iban-wrapper">
-                <code className="support-iban">NL74 INGB 0117 7006 22</code>
-                <button 
-                  onClick={() => copyToClipboard("NL74 INGB 0117 7006 22")}
-                  className={`copy-btn ${copied ? 'copied' : ''}`}
-                >
-                  {copied ? `✓ ${t.copied}` : '📋'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </footer>
     </div>
   );
