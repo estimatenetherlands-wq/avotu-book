@@ -27,7 +27,8 @@
     { "id": "chapter-22", "title": "Глава 22: Тот, кто зажигает свет", "file": "chapter-22.json" },
     { "id": "chapter-23", "title": "Глава 23: Тишина зеленых листьев", "file": "chapter-23.json" },
     { "id": "chapter-24", "title": "Глава 24: Небесный Чертог", "file": "chapter-24.json" },
-    { "id": "chapter-25", "title": "Глава 25: Чужой среди своих", "file": "chapter-25.json" }
+    { "id": "chapter-25", "title": "Глава 25: Чужой среди своих", "file": "chapter-25.json" },
+    { "id": "chapter-26", "title": "Глава 26: Чёрная Маска", "file": "chapter-26.json" }
   ],
   "lore": "lore.json"
 }
