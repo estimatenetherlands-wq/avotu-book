@@ -63,6 +63,31 @@ function normaliseAlias(value, lang) {
   return value.toLocaleLowerCase(lang === 'ru' ? 'ru-RU' : 'en-US');
 }
 
+function buildRouteHash(route) {
+  if (route.view === 'CHAPTER') return `#chapter-${route.index + 1}`;
+  if (route.view === 'LORE') return '#lore';
+  if (route.view === 'CHARACTERS' && route.characterId) return `#characters/${encodeURIComponent(route.characterId)}`;
+  if (route.view === 'CHARACTERS') return '#characters';
+  return '#home';
+}
+
+function parseRouteHash(hash) {
+  const cleanHash = hash.replace(/^#/, '');
+  const chapterMatch = cleanHash.match(/^chapter-(\d+)$/);
+
+  if (chapterMatch) {
+    return { view: 'CHAPTER', index: Number(chapterMatch[1]) - 1 };
+  }
+
+  if (cleanHash === 'lore') return { view: 'LORE' };
+  if (cleanHash === 'characters') return { view: 'CHARACTERS' };
+  if (cleanHash.startsWith('characters/')) {
+    return { view: 'CHARACTERS', characterId: decodeURIComponent(cleanHash.replace('characters/', '')) };
+  }
+
+  return { view: 'HOME' };
+}
+
 function App() {
   const [lang, setLang] = useState('ru');
   const [view, setView] = useState('HOME');
@@ -80,6 +105,7 @@ function App() {
   const [ttsLoading, setTtsLoading] = useState(false);
 
   const audioRef = useRef(null);
+  const routeReadyRef = useRef(false);
   const oneSignalEnabled = window.location.hostname === 'avotu-book.vercel.app';
   const t = COPY[lang];
 
@@ -113,6 +139,18 @@ function App() {
   const selectedCharacter = selectedCharacterId
     ? characterById.get(selectedCharacterId)
     : null;
+
+  function writeRoute(route, options = {}) {
+    const routeState = { avotuRoute: true, ...route };
+    const method = options.replace ? 'replaceState' : 'pushState';
+    window.history[method](routeState, '', buildRouteHash(routeState));
+  }
+
+  function rememberCurrentScroll() {
+    if (view === 'CHAPTER' && currentIdx !== null) {
+      writeRoute({ view: 'CHAPTER', index: currentIdx, scrollY: window.scrollY }, { replace: true });
+    }
+  }
 
   useEffect(() => {
     if (!oneSignalEnabled) {
@@ -161,6 +199,41 @@ function App() {
   }, [lang]);
 
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!bookIndex || routeReadyRef.current) return;
+
+    const route = window.history.state?.avotuRoute
+      ? window.history.state
+      : parseRouteHash(window.location.hash);
+
+    routeReadyRef.current = true;
+    writeRoute(route, { replace: true });
+    applyRoute(route, { skipHistory: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookIndex]);
+
+  useEffect(() => {
+    if (!bookIndex) return undefined;
+
+    const handlePopState = (event) => {
+      const route = event.state?.avotuRoute
+        ? event.state
+        : parseRouteHash(window.location.hash);
+
+      applyRoute(route, { skipHistory: true });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookIndex, lang]);
+
+  useEffect(() => {
     let title = 'Avotu - Dark Fantasy Saga';
     let desc = t.seoText;
 
@@ -207,13 +280,57 @@ function App() {
     OneSignal.Slidedown.promptPush().catch((err) => console.error(err));
   };
 
+  function scrollToRoutePosition(scrollY) {
+    requestAnimationFrame(() => {
+      window.scrollTo(0, Number.isFinite(scrollY) ? scrollY : 0);
+    });
+  }
+
+  function applyRoute(route, options = {}) {
+    if (route.view === 'CHAPTER') {
+      const chapter = bookIndex?.chapters?.[route.index];
+      if (chapter) {
+        loadChapter(chapter, route.index, { ...options, skipHistory: true, scrollY: route.scrollY });
+        return;
+      }
+    }
+
+    if (route.view === 'LORE' && bookIndex?.lore) {
+      loadLore(bookIndex.lore, { ...options, skipHistory: true, scrollY: route.scrollY });
+      return;
+    }
+
+    if (route.view === 'CHARACTERS') {
+      stopAudio();
+      setSelectedCharacterId(route.characterId || null);
+      setView('CHARACTERS');
+      setLoading(false);
+      scrollToRoutePosition(route.scrollY);
+      return;
+    }
+
+    stopAudio();
+    setSelectedCharacterId(null);
+    setCurrentIdx(null);
+    setCurrentLoreFile(null);
+    setCurrentContent(null);
+    setView('HOME');
+    setLoading(false);
+    scrollToRoutePosition(route.scrollY);
+  }
+
   function stopAudio() {
     if (audioRef.current) audioRef.current.pause();
     setIsReading(false);
   }
 
-  function loadChapter(chapter, index) {
+  function loadChapter(chapter, index, options = {}) {
     if (!chapter || !bookIndex) return;
+
+    if (!options.skipHistory) {
+      rememberCurrentScroll();
+      writeRoute({ view: 'CHAPTER', index });
+    }
 
     setLoading(true);
     setCurrentIdx(index);
@@ -240,7 +357,7 @@ function App() {
         setCurrentContent({ ...data, index, chapterData: chapter });
         setView('CHAPTER');
         setLoading(false);
-        window.scrollTo(0, 0);
+        scrollToRoutePosition(options.scrollY);
       })
       .catch((err) => {
         console.error(err);
@@ -248,8 +365,13 @@ function App() {
       });
   }
 
-  function loadLore(file) {
+  function loadLore(file, options = {}) {
     if (!file) return;
+
+    if (!options.skipHistory) {
+      rememberCurrentScroll();
+      writeRoute({ view: 'LORE' });
+    }
 
     setLoading(true);
     setCurrentLoreFile(file);
@@ -263,7 +385,7 @@ function App() {
         setCurrentContent(data);
         setView('LORE');
         setLoading(false);
-        window.scrollTo(0, 0);
+        scrollToRoutePosition(options.scrollY);
       })
       .catch((err) => {
         console.error(err);
@@ -271,16 +393,46 @@ function App() {
       });
   }
 
-  function openCharacters() {
+  function openHome(options = {}) {
+    if (!options.skipHistory) {
+      rememberCurrentScroll();
+      writeRoute({ view: 'HOME' });
+    }
+
+    stopAudio();
     setSelectedCharacterId(null);
-    setView('CHARACTERS');
-    window.scrollTo(0, 0);
+    setCurrentIdx(null);
+    setCurrentLoreFile(null);
+    setCurrentContent(null);
+    setView('HOME');
+    setLoading(false);
+    scrollToRoutePosition(options.scrollY);
   }
 
-  function openCharacter(characterId) {
+  function openCharacters(options = {}) {
+    if (!options.skipHistory) {
+      rememberCurrentScroll();
+      writeRoute({ view: 'CHARACTERS' });
+    }
+
+    stopAudio();
+    setSelectedCharacterId(null);
+    setView('CHARACTERS');
+    setLoading(false);
+    scrollToRoutePosition(options.scrollY);
+  }
+
+  function openCharacter(characterId, options = {}) {
+    if (!options.skipHistory) {
+      rememberCurrentScroll();
+      writeRoute({ view: 'CHARACTERS', characterId });
+    }
+
+    stopAudio();
     setSelectedCharacterId(characterId);
     setView('CHARACTERS');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setLoading(false);
+    scrollToRoutePosition(options.scrollY);
   }
 
   const toggleSpeech = async () => {
@@ -397,14 +549,14 @@ function App() {
         </div>
 
         <div className="hero-content">
-          <h1 onClick={() => setView('HOME')}>{bookIndex.title}</h1>
+          <h1 onClick={() => openHome()}>{bookIndex.title}</h1>
           <p className="subtitle">
             {t.author}: {bookIndex.author}
           </p>
         </div>
 
         <nav className="main-nav">
-          <button className={`nav-link ${view === 'HOME' ? 'active' : ''}`} onClick={() => setView('HOME')}>
+          <button className={`nav-link ${view === 'HOME' ? 'active' : ''}`} onClick={() => openHome()}>
             {t.home}
           </button>
           <button className={`nav-link ${view === 'LORE' ? 'active' : ''}`} onClick={() => loadLore(bookIndex.lore)}>
@@ -483,7 +635,7 @@ function App() {
                   ← {t.prev}
                 </button>
               )}
-              <button onClick={() => setView('HOME')} className="nav-btn">
+              <button onClick={() => openHome()} className="nav-btn">
                 {t.toToc}
               </button>
               {currentContent.index !== undefined && currentContent.index < bookIndex.chapters.length - 1 && (
