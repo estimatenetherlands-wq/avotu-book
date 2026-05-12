@@ -576,6 +576,10 @@ button {
   background: rgba(7, 8, 10, 0.84);
 }
 
+.character-feature-details {
+  padding: 0.5rem 0.75rem 0.5rem 0;
+}
+
 .character-feature h3 {
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   margin-bottom: 1rem;
@@ -889,6 +893,10 @@ button {
     grid-template-columns: 1fr;
     gap: 1.25rem;
     padding: 0 0 1.5rem;
+  }
+
+  .character-feature-details {
+    padding: 0 1.35rem 0.25rem;
   }
 
   .character-feature p {

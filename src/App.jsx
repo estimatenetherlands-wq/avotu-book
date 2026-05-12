@@ -689,7 +689,7 @@ function App() {
             {selectedCharacter && (
               <article className="character-feature" id={`character-${selectedCharacter.id}`}>
                 <img src={selectedCharacter.image} alt={selectedCharacter.name} />
-                <div>
+                <div className="character-feature-details">
                   <p className="character-role">{selectedCharacter.role}</p>
                   <h3>{selectedCharacter.name}</h3>
                   <p>{selectedCharacter.description}</p>
