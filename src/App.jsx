@@ -21,6 +21,7 @@ const COPY = {
     loading: 'Загрузка...',
     characterIndex: 'Список персонажей',
     characterIntro: 'Референсы и краткие описания ключевых персонажей.',
+    backToReading: 'Вернуться к чтению',
     seoTitle: 'О проекте Avotu',
     seoText:
       'Добро пожаловать в мир Avotu — эпическую дарк-фэнтези сагу, доступную для чтения онлайн бесплатно. Это хроники огненного эльфа, людей из другого мира и тех, кто пытается сохранить человечность в мире пепла.',
@@ -45,6 +46,7 @@ const COPY = {
     loading: 'Loading...',
     characterIndex: 'Character Index',
     characterIntro: 'Reference sheets and short descriptions for key characters.',
+    backToReading: 'Back to reading',
     seoTitle: 'About Avotu Project',
     seoText:
       'Welcome to the world of Avotu, an epic dark fantasy saga available to read online for free. These are chronicles of a fire elf, people from another world, and survivors trying to keep their humanity in a world of ash.',
@@ -97,6 +99,7 @@ function App() {
   const [currentContent, setCurrentContent] = useState(null);
   const [currentIdx, setCurrentIdx] = useState(null);
   const [currentLoreFile, setCurrentLoreFile] = useState(null);
+  const [readingReturnRoute, setReadingReturnRoute] = useState(null);
   const [loading, setLoading] = useState(true);
   const [views, setViews] = useState(null);
   const [likes, setLikes] = useState(null);
@@ -148,7 +151,9 @@ function App() {
 
   function rememberCurrentScroll() {
     if (view === 'CHAPTER' && currentIdx !== null) {
-      writeRoute({ view: 'CHAPTER', index: currentIdx, scrollY: window.scrollY }, { replace: true });
+      const readingRoute = { view: 'CHAPTER', index: currentIdx, scrollY: window.scrollY };
+      setReadingReturnRoute(readingRoute);
+      writeRoute(readingRoute, { replace: true });
     }
   }
 
@@ -435,6 +440,13 @@ function App() {
     scrollToRoutePosition(options.scrollY);
   }
 
+  function returnToReading() {
+    if (!readingReturnRoute) return;
+
+    writeRoute(readingReturnRoute);
+    applyRoute(readingReturnRoute, { skipHistory: true });
+  }
+
   const toggleSpeech = async () => {
     if (isReading) {
       stopAudio();
@@ -661,6 +673,14 @@ function App() {
 
         {view === 'CHARACTERS' && (
           <section className="characters-content">
+            {readingReturnRoute && (
+              <div className="character-toolbar">
+                <button type="button" className="return-reading-btn" onClick={returnToReading}>
+                  ← {t.backToReading}
+                </button>
+              </div>
+            )}
+
             <div className="characters-heading">
               <h2 className="chapter-title">{t.characters}</h2>
               <p>{t.characterIntro}</p>
@@ -686,7 +706,7 @@ function App() {
                   onClick={() => openCharacter(character.id)}
                   type="button"
                 >
-                  <img src={character.image} alt={character.name} loading="lazy" />
+                  <img src={character.avatar || character.image} alt={character.name} loading="lazy" />
                   <span className="character-card-body">
                     <span className="character-card-name">{character.name}</span>
                     <span className="character-card-role">{character.role}</span>

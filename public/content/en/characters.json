@@ -6,172 +6,239 @@
       "id": "anar",
       "name": "Anar",
       "role": "Isekai survivor, lightning mage",
-      "image": "/characters/anar/reference-sheet-v1.webp",
+      "image": "/characters/anar/reference-sheet-v1.png",
       "shortDescription": "A man from another world with immense magical potential and a dangerous habit of getting angry before he thinks.",
       "description": "Anar looks lazy and detached, but beneath that mask lives fierce loyalty and a rare gift for lightning. In Agdash, he begins searching not for glory, but for a shape strong enough to hold his power.",
-      "aliases": ["Anar"]
+      "aliases": [
+        "Anar"
+      ],
+      "avatar": "/characters/anar/avatar-v1.webp"
     },
     {
       "id": "avotu",
       "name": "Avotu",
       "role": "Fire elf, student of Sivarus",
-      "image": "/characters/avotu/reference-sheet-v1.webp",
+      "image": "/characters/avotu/reference-sheet-v1.png",
       "shortDescription": "The last known student of Sivarus, a hero with black flame and a memory too heavy to carry.",
       "description": "Avotu carries the guilt of the catastrophe and Biotrix's death. His sword drinks power from the environment, while his black flame has become a mark of strength and a wound that never closes.",
-      "aliases": ["Avotu"]
+      "aliases": [
+        "Avotu"
+      ],
+      "avatar": "/characters/avotu/avatar-v1.webp"
     },
     {
       "id": "sasha",
       "name": "Sasha / Alexander",
       "role": "Isekai survivor, strategist and diplomat",
-      "image": "/characters/sasha/reference-sheet-v1.webp",
+      "image": "/characters/sasha/reference-sheet-v1.png",
       "shortDescription": "The one trying to build bridges between the people from Earth and Agdash's dying society.",
       "description": "Alexander thinks in systems and keeps himself disciplined even as the world collapses. In Agsham's palace he becomes the group's voice, negotiator, and structure-seeker.",
-      "aliases": ["Sasha", "Alexander"]
+      "aliases": [
+        "Sasha",
+        "Alexander"
+      ],
+      "avatar": "/characters/sasha/avatar-v1.webp"
     },
     {
       "id": "yura",
       "name": "Yura / Yuri",
       "role": "Isekai survivor, mine foreman",
-      "image": "/characters/yura/reference-sheet-v1.webp",
+      "image": "/characters/yura/reference-sheet-v1.png",
       "shortDescription": "Nervous energy turned into discipline, order, and work.",
       "description": "Yura finds a place in the chaos of Agdash's Eastern Mine. He is afraid, but he does not stop: panic becomes instructions, shifts, markings, and survival for the people around him.",
-      "aliases": ["Yura", "Yuri"]
+      "aliases": [
+        "Yura",
+        "Yuri"
+      ],
+      "avatar": "/characters/yura/avatar-v1.webp"
     },
     {
       "id": "zhenya",
       "name": "Zhenya / Evgeny",
       "role": "Isekai survivor, mechanic-inventor",
-      "image": "/characters/zhenya/reference-sheet-v1.webp",
+      "image": "/characters/zhenya/reference-sheet-v1.png",
       "shortDescription": "A man who found a workshop in hell and immediately started repairing reality with a wrench.",
       "description": "Zhenya quickly becomes at home in the Mechanics' Guild. Where locals see mana flows and tradition, he sees levers, valves, pressure, and a chance to build weapons that buy his friends another day.",
-      "aliases": ["Zhenya", "Evgeny"]
+      "aliases": [
+        "Zhenya",
+        "Evgeny"
+      ],
+      "avatar": "/characters/zhenya/avatar-v1.webp"
     },
     {
       "id": "ravan",
       "name": "Ravan",
       "role": "Isekai survivor, fighter and medic",
-      "image": "/characters/ravan/reference-sheet-v1.webp",
+      "image": "/characters/ravan/reference-sheet-v1.png",
       "shortDescription": "A blunt, physically strong, stubborn protector of the group.",
       "description": "Ravan is used to being a pillar, so helplessness in the new world hits him hard. Training, the pneumatic gauntlet, and sharp jokes become his way of becoming useful again.",
-      "aliases": ["Ravan"]
+      "aliases": [
+        "Ravan"
+      ],
+      "avatar": "/characters/ravan/avatar-v1.webp"
     },
     {
       "id": "utmysh",
       "name": "Utmysh",
       "role": "The Black Mask, arena legend",
-      "image": "/characters/utmysh/reference-sheet-v1.webp",
+      "image": "/characters/utmysh/reference-sheet-v1.png",
       "shortDescription": "A six-time arena champion hiding his face, name, and reason for returning.",
       "description": "Utmysh vanished after his sixth victory and became a rumor used to frighten young fighters. Now he is near the arena again, preferring the name Mask and seeing Anar as a fire without form.",
-      "aliases": ["Utmysh", "Black Mask", "The Black Mask", "Mask"]
+      "aliases": [
+        "Utmysh",
+        "Black Mask",
+        "The Black Mask",
+        "Mask"
+      ],
+      "avatar": "/characters/utmysh/avatar-v1.webp"
     },
     {
       "id": "yashil",
       "name": "Yashil",
       "role": "Goblin, hero of kindness",
-      "image": "/characters/yashil/reference-sheet-v1.webp",
+      "image": "/characters/yashil/reference-sheet-v1.png",
       "shortDescription": "A small goblin who proves compassion can be stronger than a sword.",
       "description": "Yashil survives the destruction of his home and still chooses to help. His quiet kindness changes Kirah, Rene, Djanavar, and even Avotu, because in a dying world he dares not to become empty.",
-      "aliases": ["Yashil"]
+      "aliases": [
+        "Yashil"
+      ],
+      "avatar": "/characters/yashil/avatar-v1.webp"
     },
     {
       "id": "djanavar",
       "name": "Djanavar",
       "role": "Werewolf, lone wolf",
-      "image": "/characters/djanavar/reference-sheet-v1.webp",
+      "image": "/characters/djanavar/reference-sheet-v1.png",
       "shortDescription": "A werewolf with a huge axe, lazy bravado, and a heart far too loyal for his own legend.",
       "description": "Djanavar loves claiming he is a lone wolf, yet he keeps appearing exactly when his friends need protection. His jokes are rough, his axe is enormous, and his loyalty runs deeper than he admits.",
-      "aliases": ["Djanavar", "Janavar"]
+      "aliases": [
+        "Djanavar",
+        "Janavar"
+      ],
+      "avatar": "/characters/djanavar/avatar-v1.webp"
     },
     {
       "id": "kirah",
       "name": "Kirah",
       "role": "Demon of Zahan seeking redemption",
-      "image": "/characters/kirah/reference-sheet-v1.webp",
+      "image": "/characters/kirah/reference-sheet-v1.png",
       "shortDescription": "A monster forged for destruction who hates his own hands.",
       "description": "Kirah was made as a weapon of the Legion, but the pain he feels over the evil he has done proves something living remains inside. Beside Yashil, he learns to choose protection over ruin.",
-      "aliases": ["Kirah"]
+      "aliases": [
+        "Kirah"
+      ],
+      "avatar": "/characters/kirah/avatar-v1.webp"
     },
     {
       "id": "rene",
       "name": "Rene",
       "role": "Fox outcast, blade and cynicism",
-      "image": "/characters/rene/reference-sheet-v1.webp",
+      "image": "/characters/rene/reference-sheet-v1.png",
       "shortDescription": "A stylish, sarcastic, dangerous companion of Yashil.",
       "description": "Rene pretends not to care because that makes survival easier. Behind smoke, daggers, and mockery is someone still capable of staying by the fire when others are afraid.",
-      "aliases": ["Rene", "René"]
+      "aliases": [
+        "Rene",
+        "René"
+      ],
+      "avatar": "/characters/rene/avatar-v1.webp"
     },
     {
       "id": "stephanie",
       "name": "Stephanie",
       "role": "Fire elf from Agdash",
-      "image": "/characters/stephanie/reference-sheet-v1.webp",
+      "image": "/characters/stephanie/reference-sheet-v1.png",
       "shortDescription": "A stubborn student with a small flame and a large will.",
       "description": "Stephanie lacks the power of great mages, but she keeps training beyond the walls of Agdash. In her, Anar sees a mirror image: she has purpose, but not enough strength.",
-      "aliases": ["Stephanie"]
+      "aliases": [
+        "Stephanie"
+      ],
+      "avatar": "/characters/stephanie/avatar-v1.webp"
     },
     {
       "id": "agsham",
       "name": "Agsham",
       "role": "King of Agdash",
-      "image": "/characters/agsham/reference-sheet-v1.webp",
+      "image": "/characters/agsham/reference-sheet-v1.png",
       "shortDescription": "The old fire elf king ruling a city on the edge of the end.",
       "description": "Agsham was once a legend, but now his flame is almost gone. He does not believe in beautiful salvation, but he understands the price of every day Agdash still survives.",
-      "aliases": ["Agsham", "King Agsham"]
+      "aliases": [
+        "Agsham",
+        "King Agsham"
+      ],
+      "avatar": "/characters/agsham/avatar-v1.webp"
     },
     {
       "id": "brann",
       "name": "Brann",
       "role": "Master of the Mechanics' Guild",
-      "image": "/characters/brann/reference-sheet-v1.webp",
+      "image": "/characters/brann/reference-sheet-v1.png",
       "shortDescription": "A one-eyed dwarf mechanic with a prosthetic arm and the temper of an overheated boiler.",
       "description": "Brann is rude, loud, and brilliant. His workshop in Agdash is where Zhenya's Earth-born mechanics collide with local crystals, steam, and explosions.",
-      "aliases": ["Brann"]
+      "aliases": [
+        "Brann"
+      ],
+      "avatar": "/characters/brann/avatar-v1.webp"
     },
     {
       "id": "gryz",
       "name": "Gryz",
       "role": "The orc from Anar's cell",
-      "image": "/characters/gryz/reference-sheet-v1.webp",
+      "image": "/characters/gryz/reference-sheet-v1.png",
       "shortDescription": "A drunken orc in whom Anar unexpectedly sees another stranger among his own.",
       "description": "Gryz is unpleasant, crude, and almost always drunk, but behind the stink and fists lives the same emptiness that crushes many survivors. Anar spends fifteen days with him in an Agdash prison.",
-      "aliases": ["Gryz"]
+      "aliases": [
+        "Gryz"
+      ],
+      "avatar": "/characters/gryz/avatar-v1.webp"
     },
     {
       "id": "valtor",
       "name": "Lord Valtor",
       "role": "Vampire lord",
-      "image": "/characters/valtor/reference-sheet-v1.webp",
+      "image": "/characters/valtor/reference-sheet-v1.png",
       "shortDescription": "A cold observer leading dead legions through the end of the world.",
       "description": "Valtor is not a mindless monster. He is ancient, polite, calculating, and dangerous, and his interest in Yashil comes from recognizing how rare true fire is.",
-      "aliases": ["Valtor", "Lord Valtor"]
+      "aliases": [
+        "Valtor",
+        "Lord Valtor"
+      ],
+      "avatar": "/characters/valtor/avatar-v1.webp"
     },
     {
       "id": "biotrix",
       "name": "Biotrix",
       "role": "Forest elf from Avotu's memory",
-      "image": "/characters/biotrix/reference-sheet-v1.webp",
+      "image": "/characters/biotrix/reference-sheet-v1.png",
       "shortDescription": "Avotu's love and a living memory of the world before the catastrophe.",
       "description": "Biotrix appears in Avotu's memories as warmth, green life, and trust torn apart with the sky. Her death is one of the wounds that made his black flame stop giving warmth.",
-      "aliases": ["Biotrix"]
+      "aliases": [
+        "Biotrix"
+      ],
+      "avatar": "/characters/biotrix/avatar-v1.webp"
     },
     {
       "id": "sivarus",
       "name": "Sivarus",
       "role": "Legendary ancient mage",
-      "image": "/characters/sivarus/reference-sheet-v1.webp",
+      "image": "/characters/sivarus/reference-sheet-v1.png",
       "shortDescription": "The teacher of twelve students and a name left in myth after an age died.",
       "description": "Sivarus studied the fabric of the world and left behind students empowered by fragments of his colossal force. What happened to eleven of them remains one of the great mysteries.",
-      "aliases": ["Sivarus"]
+      "aliases": [
+        "Sivarus"
+      ],
+      "avatar": "/characters/sivarus/avatar-v1.webp"
     },
     {
       "id": "zahan",
       "name": "Zahan",
       "role": "Demon overlord",
-      "image": "/characters/zahan/reference-sheet-v1.webp",
+      "image": "/characters/zahan/reference-sheet-v1.png",
       "shortDescription": "A demon commander whose legions fight the portal creatures.",
       "description": "Zahan is cruel and organized, but even his war is not simple storybook evil. His demons fight for control over a collapsing reality where every side is already drowning.",
-      "aliases": ["Zahan"]
+      "aliases": [
+        "Zahan"
+      ],
+      "avatar": "/characters/zahan/avatar-v1.webp"
     }
   ]
 }
