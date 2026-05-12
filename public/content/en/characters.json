@@ -90,7 +90,7 @@
         "The Black Mask",
         "Mask"
       ],
-      "avatar": "/characters/utmysh/avatar-v2.webp"
+      "avatar": "/characters/utmysh/avatar-v3.webp"
     },
     {
       "id": "yashil",
@@ -165,7 +165,7 @@
         "Agsham",
         "King Agsham"
       ],
-      "avatar": "/characters/agsham/avatar-v2.webp"
+      "avatar": "/characters/agsham/avatar-v3.webp"
     },
     {
       "id": "brann",
@@ -177,7 +177,7 @@
       "aliases": [
         "Brann"
       ],
-      "avatar": "/characters/brann/avatar-v2.webp"
+      "avatar": "/characters/brann/avatar-v3.webp"
     },
     {
       "id": "gryz",
@@ -189,7 +189,7 @@
       "aliases": [
         "Gryz"
       ],
-      "avatar": "/characters/gryz/avatar-v1.webp"
+      "avatar": "/characters/gryz/avatar-v2.webp"
     },
     {
       "id": "valtor",
@@ -202,7 +202,7 @@
         "Valtor",
         "Lord Valtor"
       ],
-      "avatar": "/characters/valtor/avatar-v1.webp"
+      "avatar": "/characters/valtor/avatar-v2.webp"
     },
     {
       "id": "biotrix",
@@ -214,7 +214,7 @@
       "aliases": [
         "Biotrix"
       ],
-      "avatar": "/characters/biotrix/avatar-v1.webp"
+      "avatar": "/characters/biotrix/avatar-v2.webp"
     },
     {
       "id": "sivarus",
@@ -226,7 +226,7 @@
       "aliases": [
         "Sivarus"
       ],
-      "avatar": "/characters/sivarus/avatar-v1.webp"
+      "avatar": "/characters/sivarus/avatar-v2.webp"
     },
     {
       "id": "zahan",
@@ -238,7 +238,7 @@
       "aliases": [
         "Zahan"
       ],
-      "avatar": "/characters/zahan/avatar-v1.webp"
+      "avatar": "/characters/zahan/avatar-v2.webp"
     }
   ]
 }
