@@ -16,7 +16,7 @@
         "Анаром",
         "Анаре"
       ],
-      "avatar": "/characters/anar/avatar-v1.webp"
+      "avatar": "/characters/anar/avatar-v2.webp"
     },
     {
       "id": "avotu",
@@ -28,7 +28,7 @@
       "aliases": [
         "Авоту"
       ],
-      "avatar": "/characters/avotu/avatar-v1.webp"
+      "avatar": "/characters/avotu/avatar-v2.webp"
     },
     {
       "id": "sasha",
@@ -49,7 +49,7 @@
         "Александром",
         "Александре"
       ],
-      "avatar": "/characters/sasha/avatar-v1.webp"
+      "avatar": "/characters/sasha/avatar-v2.webp"
     },
     {
       "id": "yura",
@@ -70,7 +70,7 @@
         "Юрием",
         "Юрии"
       ],
-      "avatar": "/characters/yura/avatar-v1.webp"
+      "avatar": "/characters/yura/avatar-v2.webp"
     },
     {
       "id": "zhenya",
@@ -91,7 +91,7 @@
         "Евгением",
         "Евгении"
       ],
-      "avatar": "/characters/zhenya/avatar-v1.webp"
+      "avatar": "/characters/zhenya/avatar-v2.webp"
     },
     {
       "id": "ravan",
@@ -107,7 +107,7 @@
         "Раваном",
         "Раване"
       ],
-      "avatar": "/characters/ravan/avatar-v1.webp"
+      "avatar": "/characters/ravan/avatar-v2.webp"
     },
     {
       "id": "utmysh",
@@ -130,7 +130,7 @@
         "Маски",
         "Маску"
       ],
-      "avatar": "/characters/utmysh/avatar-v1.webp"
+      "avatar": "/characters/utmysh/avatar-v2.webp"
     },
     {
       "id": "yashil",
@@ -146,7 +146,7 @@
         "Яшилом",
         "Яшиле"
       ],
-      "avatar": "/characters/yashil/avatar-v1.webp"
+      "avatar": "/characters/yashil/avatar-v2.webp"
     },
     {
       "id": "djanavar",
@@ -162,7 +162,7 @@
         "Джанаваром",
         "Джанаваре"
       ],
-      "avatar": "/characters/djanavar/avatar-v1.webp"
+      "avatar": "/characters/djanavar/avatar-v2.webp"
     },
     {
       "id": "kirah",
@@ -178,7 +178,7 @@
         "Кирахом",
         "Кирахе"
       ],
-      "avatar": "/characters/kirah/avatar-v1.webp"
+      "avatar": "/characters/kirah/avatar-v2.webp"
     },
     {
       "id": "rene",
@@ -190,7 +190,7 @@
       "aliases": [
         "Ренэ"
       ],
-      "avatar": "/characters/rene/avatar-v1.webp"
+      "avatar": "/characters/rene/avatar-v2.webp"
     },
     {
       "id": "stephanie",
@@ -202,7 +202,7 @@
       "aliases": [
         "Стефани"
       ],
-      "avatar": "/characters/stephanie/avatar-v1.webp"
+      "avatar": "/characters/stephanie/avatar-v2.webp"
     },
     {
       "id": "agsham",
@@ -221,7 +221,7 @@
         "короля Агшама",
         "королю Агшаму"
       ],
-      "avatar": "/characters/agsham/avatar-v1.webp"
+      "avatar": "/characters/agsham/avatar-v2.webp"
     },
     {
       "id": "brann",
@@ -237,7 +237,7 @@
         "Бранном",
         "Бранне"
       ],
-      "avatar": "/characters/brann/avatar-v1.webp"
+      "avatar": "/characters/brann/avatar-v2.webp"
     },
     {
       "id": "gryz",
