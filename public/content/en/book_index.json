@@ -28,7 +28,8 @@
     { "id": "chapter-23", "title": "Chapter 23: The Silence of Green Leaves", "file": "chapter-23.json" },
     { "id": "chapter-24", "title": "Chapter 24: The Celestial Hall", "file": "chapter-24.json" },
     { "id": "chapter-25", "title": "Chapter 25: A Stranger Among His Own", "file": "chapter-25.json" },
-    { "id": "chapter-26", "title": "Chapter 26: The Black Mask", "file": "chapter-26.json" }
+    { "id": "chapter-26", "title": "Chapter 26: The Black Mask", "file": "chapter-26.json" },
+    { "id": "chapter-27", "title": "Chapter 27: The Noise of a Name", "file": "chapter-27.json" }
   ],
   "lore": "lore.json"
 }
