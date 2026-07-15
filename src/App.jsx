@@ -6,6 +6,7 @@ const COPY = {
     home: 'Главная',
     lore: 'Лор',
     characters: 'Персонажи',
+    comic: 'Комикс',
     toc: 'Оглавление',
     toToc: 'К оглавлению',
     prev: 'Предыдущая глава',
@@ -21,16 +22,21 @@ const COPY = {
     loading: 'Загрузка...',
     characterIndex: 'Список персонажей',
     characterIntro: 'Референсы и краткие описания ключевых персонажей.',
+    comicIntro: 'Первая глава в покадровой сборке. Арт без встроенного текста, все надписи добавляются отдельно.',
     backToReading: 'Вернуться к чтению',
     seoTitle: 'О проекте Avotu',
     seoText:
       'Добро пожаловать в мир Avotu — эпическую дарк-фэнтези сагу, доступную для чтения онлайн бесплатно. Это хроники огненного эльфа, людей из другого мира и тех, кто пытается сохранить человечность в мире пепла.',
-    audioMissing: 'Озвучка этой главы еще готовится. Подождите пару минут.'
+    audioMissing: 'Озвучка этой главы еще готовится. Подождите пару минут.',
+    learnModeOn: 'Режим обучения: Вкл 🎓',
+    learnModeOff: 'Режим обучения: Выкл 🎓',
+    learnInstructions: 'Нажмите на слово или выделите фразу для дословного перевода.'
   },
   en: {
     home: 'Home',
     lore: 'Lore',
     characters: 'Characters',
+    comic: 'Comic',
     toc: 'Table of Contents',
     toToc: 'To Contents',
     prev: 'Previous Chapter',
@@ -46,11 +52,15 @@ const COPY = {
     loading: 'Loading...',
     characterIndex: 'Character Index',
     characterIntro: 'Reference sheets and short descriptions for key characters.',
+    comicIntro: 'Chapter one assembled panel by panel. Art stays text-free; lettering is added separately.',
     backToReading: 'Back to reading',
     seoTitle: 'About Avotu Project',
     seoText:
       'Welcome to the world of Avotu, an epic dark fantasy saga available to read online for free. These are chronicles of a fire elf, people from another world, and survivors trying to keep their humanity in a world of ash.',
-    audioMissing: 'The audio for this chapter is still being prepared. Please wait a little.'
+    audioMissing: 'The audio for this chapter is still being prepared. Please wait a little.',
+    learnModeOn: 'Learn Mode: On 🎓',
+    learnModeOff: 'Learn Mode: Off 🎓',
+    learnInstructions: 'Click any word or highlight a phrase for literal translation.'
   }
 };
 
@@ -70,6 +80,7 @@ function buildRouteHash(route) {
   if (route.view === 'LORE') return '#lore';
   if (route.view === 'CHARACTERS' && route.characterId) return `#characters/${encodeURIComponent(route.characterId)}`;
   if (route.view === 'CHARACTERS') return '#characters';
+  if (route.view === 'COMIC') return '#comic';
   return '#home';
 }
 
@@ -83,6 +94,7 @@ function parseRouteHash(hash) {
 
   if (cleanHash === 'lore') return { view: 'LORE' };
   if (cleanHash === 'characters') return { view: 'CHARACTERS' };
+  if (cleanHash === 'comic') return { view: 'COMIC' };
   if (cleanHash.startsWith('characters/')) {
     return { view: 'CHARACTERS', characterId: decodeURIComponent(cleanHash.replace('characters/', '')) };
   }
@@ -95,6 +107,7 @@ function App() {
   const [view, setView] = useState('HOME');
   const [bookIndex, setBookIndex] = useState(null);
   const [characters, setCharacters] = useState([]);
+  const [comicIssue, setComicIssue] = useState(null);
   const [selectedCharacterId, setSelectedCharacterId] = useState(null);
   const [currentContent, setCurrentContent] = useState(null);
   const [currentIdx, setCurrentIdx] = useState(null);
@@ -106,6 +119,18 @@ function App() {
   const [hasLiked, setHasLiked] = useState(false);
   const [isReading, setIsReading] = useState(false);
   const [ttsLoading, setTtsLoading] = useState(false);
+
+  const [isLearnMode, setIsLearnMode] = useState(false);
+  const [parallelContent, setParallelContent] = useState(null);
+  const [visibleParallelParagraphs, setVisibleParallelParagraphs] = useState({});
+  const [activeWordInfo, setActiveWordInfo] = useState(null);
+  const [translationCache, setTranslationCache] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('avotu_translations') || '{}');
+    } catch (e) {
+      return {};
+    }
+  });
 
   const audioRef = useRef(null);
   const routeReadyRef = useRef(false);
@@ -183,12 +208,19 @@ function App() {
       fetch(`/content/${lang}/characters.json`).then((res) => {
         if (!res.ok) throw new Error(`Failed to load characters: ${res.status}`);
         return res.json();
-      })
+      }),
+      fetch('/comics/issue-001/manifest.json')
+        .then((res) => {
+          if (!res.ok) return null;
+          return res.json();
+        })
+        .catch(() => null)
     ])
-      .then(([indexData, characterData]) => {
+      .then(([indexData, characterData, comicData]) => {
         if (cancelled) return;
         setBookIndex(indexData);
         setCharacters(characterData.characters || []);
+        setComicIssue(comicData);
         setLoading(false);
       })
       .catch((err) => {
@@ -251,6 +283,9 @@ function App() {
     } else if (view === 'CHARACTERS') {
       title = `${t.characters} | Avotu Saga`;
       desc = 'Character gallery and reference sheets for Avotu.';
+    } else if (view === 'COMIC') {
+      title = `${t.comic} | Avotu Saga`;
+      desc = 'Panel-by-panel comic adaptation of Avotu Saga.';
     }
 
     document.title = title;
@@ -314,6 +349,18 @@ function App() {
       return;
     }
 
+    if (route.view === 'COMIC') {
+      stopAudio();
+      setSelectedCharacterId(null);
+      setCurrentIdx(null);
+      setCurrentLoreFile(null);
+      setCurrentContent(null);
+      setView('COMIC');
+      setLoading(false);
+      scrollToRoutePosition(route.scrollY);
+      return;
+    }
+
     stopAudio();
     setSelectedCharacterId(null);
     setCurrentIdx(null);
@@ -339,6 +386,9 @@ function App() {
 
     setLoading(true);
     setCurrentIdx(index);
+    setActiveWordInfo(null);
+    setVisibleParallelParagraphs({});
+
     const chapterPath = `/content/${lang}/${chapter.file.replace('/content/', '')}`;
     const totalChapters = bookIndex.chapters.length;
     const reverseIdx = totalChapters - index;
@@ -352,14 +402,29 @@ function App() {
     setHasLiked(isLiked);
     setLikes(isLiked ? baseLikes + 1 : baseLikes);
 
-    fetch(chapterPath)
-      .then((res) => {
+    const promises = [
+      fetch(chapterPath).then((res) => {
         stopAudio();
         if (!res.ok) throw new Error(`Failed to load ${chapterPath}`);
         return res.json();
       })
-      .then((data) => {
-        setCurrentContent({ ...data, index, chapterData: chapter });
+    ];
+
+    if (lang === 'en') {
+      const ruPath = `/content/ru/${chapter.file.replace('/content/', '')}`;
+      promises.push(
+        fetch(ruPath)
+          .then((res) => (res.ok ? res.json() : null))
+          .catch(() => null)
+      );
+    } else {
+      promises.push(Promise.resolve(null));
+    }
+
+    Promise.all(promises)
+      .then(([enData, ruData]) => {
+        setCurrentContent({ ...enData, index, chapterData: chapter });
+        setParallelContent(ruData);
         setView('CHAPTER');
         setLoading(false);
         scrollToRoutePosition(options.scrollY);
@@ -423,6 +488,22 @@ function App() {
     stopAudio();
     setSelectedCharacterId(null);
     setView('CHARACTERS');
+    setLoading(false);
+    scrollToRoutePosition(options.scrollY);
+  }
+
+  function openComic(options = {}) {
+    if (!options.skipHistory) {
+      rememberCurrentScroll();
+      writeRoute({ view: 'COMIC' });
+    }
+
+    stopAudio();
+    setSelectedCharacterId(null);
+    setCurrentIdx(null);
+    setCurrentLoreFile(null);
+    setCurrentContent(null);
+    setView('COMIC');
     setLoading(false);
     scrollToRoutePosition(options.scrollY);
   }
@@ -491,6 +572,191 @@ function App() {
     setLikes((prev) => (prev || 0) + 1);
     setHasLiked(true);
     localStorage.setItem('avotu_v5_likes', JSON.stringify(likedChapters));
+  };
+
+  const performTranslation = async (text) => {
+    const from = 'en';
+    const to = 'ru';
+    const cacheKey = `${from}_${to}_${text.toLowerCase().trim()}`;
+    if (translationCache[cacheKey]) {
+      return translationCache[cacheKey];
+    }
+
+    try {
+      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Translation failed');
+      const data = await res.json();
+      const result = data[0].map(item => item[0]).join('');
+      
+      setTranslationCache(prev => {
+        const updated = { ...prev, [cacheKey]: result };
+        localStorage.setItem('avotu_translations', JSON.stringify(updated));
+        return updated;
+      });
+      return result;
+    } catch (err) {
+      console.error(err);
+      return 'Ошибка перевода';
+    }
+  };
+
+  const handleWordClick = async (e, word, paragraphText, paragraphIndex) => {
+    e.stopPropagation();
+    
+    const sentences = paragraphText.split(/(?<=[.!?])\s+/);
+    const sentence = sentences.find(s => s.includes(word)) || word;
+    
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = rect.left + window.scrollX + rect.width / 2;
+    const y = rect.top + window.scrollY;
+
+    setActiveWordInfo({
+      word,
+      sentence,
+      paragraphIndex,
+      x,
+      y,
+      translation: 'Загрузка...',
+      sentenceTranslation: '',
+      loading: true,
+      showSentenceTranslation: false
+    });
+
+    const wordTranslation = await performTranslation(word);
+    
+    setActiveWordInfo(prev => {
+      if (!prev || prev.word !== word || prev.paragraphIndex !== paragraphIndex) return prev;
+      return {
+        ...prev,
+        translation: wordTranslation,
+        loading: false
+      };
+    });
+  };
+
+  const handleTranslateSentence = async () => {
+    if (!activeWordInfo) return;
+    setActiveWordInfo(prev => ({ ...prev, loadingSentence: true, showSentenceTranslation: true }));
+    const sentenceTranslation = await performTranslation(activeWordInfo.sentence);
+    setActiveWordInfo(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        sentenceTranslation,
+        loadingSentence: false
+      };
+    });
+  };
+
+  const speakText = (text) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert('Text-to-speech is not supported in this browser.');
+    }
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (activeWordInfo && !e.target.closest('.translation-tooltip') && !e.target.closest('.interactive-word')) {
+        setActiveWordInfo(null);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, [activeWordInfo]);
+
+  useEffect(() => {
+    const handleSelection = () => {
+      const selection = window.getSelection();
+      const selectedText = selection.toString().trim();
+      if (selectedText.length > 1 && selectedText.length < 150 && view === 'CHAPTER' && isLearnMode) {
+        const anchorNode = selection.anchorNode;
+        if (anchorNode && anchorNode.parentElement && anchorNode.parentElement.closest('.interactive-paragraph')) {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          const x = rect.left + window.scrollX + rect.width / 2;
+          const y = rect.top + window.scrollY;
+
+          const paragraphElement = anchorNode.parentElement.closest('.interactive-paragraph');
+          const paragraphIndex = parseInt(paragraphElement.dataset.index, 10);
+
+          setActiveWordInfo({
+            word: selectedText,
+            sentence: selectedText,
+            paragraphIndex,
+            x,
+            y,
+            translation: 'Загрузка...',
+            sentenceTranslation: '',
+            loading: true,
+            showSentenceTranslation: false,
+            isPhrase: true
+          });
+
+          performTranslation(selectedText).then(translated => {
+            setActiveWordInfo(prev => {
+              if (!prev || prev.word !== selectedText) return prev;
+              return {
+                ...prev,
+                translation: translated,
+                loading: false
+              };
+            });
+          });
+        }
+      }
+    };
+
+    document.addEventListener('mouseup', handleSelection);
+    return () => document.removeEventListener('mouseup', handleSelection);
+  }, [view, isLearnMode, translationCache]);
+
+  const renderInteractiveParagraph = (paragraph, index) => {
+    if (paragraph === '***') {
+      return <div key={index} className="scene-break" />;
+    }
+
+    const tokens = paragraph.split(/(\b[a-zA-Z0-9'’-]+)/u);
+
+    return (
+      <div key={index} className="paragraph-container">
+        <p 
+          className={`interactive-paragraph ${index === 0 ? 'dropcap' : ''}`}
+          data-index={index}
+        >
+          {tokens.map((token, tokenIdx) => {
+            const isWord = /^[a-zA-Z0-9'’-]+$/.test(token);
+            if (isWord) {
+              return (
+                <span
+                  key={tokenIdx}
+                  className="interactive-word"
+                  onClick={(e) => handleWordClick(e, token, paragraph, index)}
+                >
+                  {token}
+                </span>
+              );
+            } else {
+              return token;
+            }
+          })}
+        </p>
+
+        {visibleParallelParagraphs[index] && parallelContent && parallelContent.paragraphs[index] && (
+          <div className="parallel-translation-container">
+            <span className="parallel-label">Перевод:</span>
+            <p className="parallel-paragraph">
+              {parallelContent.paragraphs[index]}
+            </p>
+          </div>
+        )}
+      </div>
+    );
   };
 
   function renderCharacterLinkedText(text) {
@@ -577,10 +843,13 @@ function App() {
           <button className={`nav-link ${view === 'CHARACTERS' ? 'active' : ''}`} onClick={openCharacters}>
             {t.characters}
           </button>
+          <button className={`nav-link ${view === 'COMIC' ? 'active' : ''}`} onClick={openComic}>
+            {t.comic}
+          </button>
         </nav>
       </header>
 
-      <main className={`content-wrapper ${view === 'CHARACTERS' ? 'characters-wide' : ''}`}>
+      <main className={`content-wrapper ${view === 'CHARACTERS' ? 'characters-wide' : ''} ${view === 'LORE' ? 'lore-wide' : ''} ${view === 'COMIC' ? 'comic-wide' : ''}`}>
         {view === 'HOME' && (
           <div className="book-content">
             <h2 className="chapter-title">{t.toc}</h2>
@@ -600,25 +869,72 @@ function App() {
           </div>
         )}
 
+        {view === 'COMIC' && (
+          <section className="comic-reader">
+            <div className="comic-heading">
+              <h2 className="chapter-title">{comicIssue?.title || t.comic}</h2>
+              <p>{t.comicIntro}</p>
+            </div>
+
+            <div className="comic-pages">
+              {(comicIssue?.pages || []).map((page, index) => (
+                <figure key={page.id || page.image} className="comic-page">
+                  <img
+                    src={page.image}
+                    alt={page.title || `${t.comic} ${index + 1}`}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
         {view === 'CHAPTER' && currentContent && (
           <article className="book-content">
             <div className="chapter-header">
               <h2 className="chapter-title">{currentContent.title}</h2>
-              <button
-                className={`tts-btn ${isReading ? 'reading' : ''} ${ttsLoading ? 'loading' : ''}`}
-                onClick={toggleSpeech}
-                disabled={ttsLoading}
-                type="button"
-                aria-label={ttsLoading ? t.generating : isReading ? t.stop : t.listen}
-              >
-                <span className="tts-icon">{ttsLoading ? '...' : isReading ? '■' : '♪'}</span>
-                <span className="tts-tooltip">{ttsLoading ? t.generating : isReading ? t.stop : t.listen}</span>
-              </button>
+              <div className="chapter-actions">
+                <button
+                  className={`tts-btn ${isReading ? 'reading' : ''} ${ttsLoading ? 'loading' : ''}`}
+                  onClick={toggleSpeech}
+                  disabled={ttsLoading}
+                  type="button"
+                  aria-label={ttsLoading ? t.generating : isReading ? t.stop : t.listen}
+                >
+                  <span className="tts-icon">{ttsLoading ? '...' : isReading ? '■' : '♪'}</span>
+                  <span className="tts-tooltip">{ttsLoading ? t.generating : isReading ? t.stop : t.listen}</span>
+                </button>
+
+                {lang === 'en' && (
+                  <button
+                    className={`learn-toggle-btn ${isLearnMode ? 'active' : ''}`}
+                    onClick={() => {
+                      setIsLearnMode(!isLearnMode);
+                      setActiveWordInfo(null);
+                    }}
+                    type="button"
+                  >
+                    <span className="learn-icon">🎓</span>
+                    <span className="learn-tooltip">{isLearnMode ? t.learnModeOn : t.learnModeOff}</span>
+                  </button>
+                )}
+              </div>
             </div>
+
+            {lang === 'en' && isLearnMode && (
+              <p className="learn-instructions-banner">
+                {t.learnInstructions}
+              </p>
+            )}
 
             {currentContent.paragraphs.map((paragraph, index) => {
               if (paragraph === '***') {
                 return <div key={index} className="scene-break" />;
+              }
+
+              if (lang === 'en' && isLearnMode) {
+                return renderInteractiveParagraph(paragraph, index);
               }
 
               return (
@@ -660,15 +976,34 @@ function App() {
         )}
 
         {view === 'LORE' && currentContent && (
-          <div className="book-content">
+          <article className="book-content lore-content">
+            {currentContent.kicker && <p className="lore-kicker">{currentContent.kicker}</p>}
             <h2 className="chapter-title">{currentContent.title}</h2>
-            {currentContent.sections.map((section, index) => (
-              <section key={index} className="lore-section">
-                <h3>{section.name}</h3>
-                <p>{section.content}</p>
-              </section>
-            ))}
-          </div>
+            {currentContent.intro && <p className="lore-intro">{renderCharacterLinkedText(currentContent.intro)}</p>}
+
+            {Array.isArray(currentContent.facts) && currentContent.facts.length > 0 && (
+              <div className="lore-facts" aria-label={currentContent.factsLabel || currentContent.title}>
+                {currentContent.facts.map((fact, index) => (
+                  <div key={`${fact.label}-${index}`} className="lore-fact">
+                    <span className="lore-fact-label">{fact.label}</span>
+                    <span className="lore-fact-value">{renderCharacterLinkedText(fact.value)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="lore-grid">
+              {currentContent.sections.map((section, index) => (
+                <section key={`${section.name}-${index}`} className="lore-section">
+                  {section.tag && <span className="lore-section-tag">{section.tag}</span>}
+                  <h3>{section.name}</h3>
+                  <p>{renderCharacterLinkedText(section.content)}</p>
+                </section>
+              ))}
+            </div>
+
+            {currentContent.canonNote && <p className="lore-canon-note">{renderCharacterLinkedText(currentContent.canonNote)}</p>}
+          </article>
         )}
 
         {view === 'CHARACTERS' && (
@@ -734,6 +1069,72 @@ function App() {
           </a>
         </div>
       </footer>
+
+      {activeWordInfo && (
+        <div
+          className="translation-tooltip"
+          style={{
+            position: 'absolute',
+            left: `${activeWordInfo.x}px`,
+            top: `${activeWordInfo.y - 10}px`,
+            transform: 'translate(-50%, -100%)',
+            zIndex: 1000
+          }}
+        >
+          <div className="tooltip-arrow" />
+          <div className="tooltip-content">
+            <div className="tooltip-header">
+              <span className="original-word">{activeWordInfo.word}</span>
+              <div className="tooltip-header-actions">
+                <button className="tooltip-speech-btn" onClick={() => speakText(activeWordInfo.word)} title="Listen">
+                  🔊
+                </button>
+                <button className="tooltip-close-btn" onClick={() => setActiveWordInfo(null)}>
+                  ✕
+                </button>
+              </div>
+            </div>
+            
+            <div className="translation-result">
+              {activeWordInfo.loading ? (
+                <span className="tooltip-loading">Загрузка перевода...</span>
+              ) : (
+                <span className="translated-text">{activeWordInfo.translation}</span>
+              )}
+            </div>
+
+            <div className="tooltip-actions">
+              {!activeWordInfo.isPhrase && (
+                <button className="tooltip-action-btn" onClick={handleTranslateSentence}>
+                  Предложение целиком
+                </button>
+              )}
+              {parallelContent && parallelContent.paragraphs && parallelContent.paragraphs[activeWordInfo.paragraphIndex] && (
+                <button 
+                  className="tooltip-action-btn" 
+                  onClick={() => {
+                    setVisibleParallelParagraphs(prev => ({
+                      ...prev,
+                      [activeWordInfo.paragraphIndex]: !prev[activeWordInfo.paragraphIndex]
+                    }));
+                  }}
+                >
+                  {visibleParallelParagraphs[activeWordInfo.paragraphIndex] ? 'Скрыть RU абзац' : 'Показать RU абзац'}
+                </button>
+              )}
+            </div>
+
+            {activeWordInfo.showSentenceTranslation && (
+              <div className="sentence-translation-box">
+                <p className="sentence-en">{activeWordInfo.sentence}</p>
+                <p className="sentence-ru">
+                  {activeWordInfo.loadingSentence ? 'Загрузка...' : activeWordInfo.sentenceTranslation}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
